@@ -16,7 +16,7 @@ call vundle#rc()
 " let Vundle manage Vundle (required)
 Bundle "gmarik/vundle"
 
-Bundle 'altercation/vim-colors-solarized'
+Bundle 'gabrielhaim/vim-colors-solarized'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-markdown'
 Bundle 'christoomey/vim-tmux-navigator'
