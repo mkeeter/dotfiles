@@ -21,6 +21,8 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-markdown'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'python.vim'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'wincent/Command-T'
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on
