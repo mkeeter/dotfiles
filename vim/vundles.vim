@@ -19,7 +19,6 @@ Bundle "gmarik/vundle"
 Bundle 'gabrielhaim/vim-colors-solarized'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-endwise'
 Bundle 'Raimondi/delimitMate'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'python.vim'
