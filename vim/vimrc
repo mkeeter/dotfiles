@@ -38,6 +38,7 @@ set modelines=0
 
 " Use comma as leader key
 let mapleader=","
+let maplocalleader=","
 
 " =============== Vundle Initialization ===============
 " This loads all the plugins specified in ~/.vim/vundle.vim
