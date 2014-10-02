@@ -19,6 +19,8 @@ export PATH=~/Library/Python/2.7/bin:$PATH
 alias vim="~/Applications/MacVim.app/Contents/MacOS/Vim"
 rgrep() { grep -r $1 *; }
 
+alias org="vim ~/org"
+
 alias miniterm="python -m serial.tools.miniterm"
 
 # Python: import installed packages before system packages
