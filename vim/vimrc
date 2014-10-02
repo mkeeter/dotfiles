@@ -13,6 +13,7 @@ set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set mouse=a                     "Mouse is active
 set ttymouse=xterm2             "And gets scroll wheel
+
 set timeoutlen=1000 ttimeoutlen=50 "Fast mode switching
 
 " This makes vim act like all other editors, buffers can
