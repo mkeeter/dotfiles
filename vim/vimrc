@@ -141,3 +141,9 @@ function! ToggleFocusMode()
   endif
 endfunc
 nnoremap <F1> :call ToggleFocusMode()<cr>
+
+
+" ======== Silent command execution + redraw =========
+command! -nargs=1 Silent
+\ | execute ':silent !'.<q-args>
+\ | execute ':redraw!'
