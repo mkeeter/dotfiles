@@ -22,11 +22,15 @@ for i, s in enumerate(sessions):
 print "%i) New session" % (i+2)
 print "%i) zsh" % (i+3)
 
+i = raw_input("Please choose your session: ")
 try:
-    s = int(raw_input("Please choose your session: ")) - 1
+    s = int(i) - 1
 except ValueError:
-    print "Invalid session number!"
-    s = len(sessions)
+    if i == '':
+        s = len(sessions) + 1
+    else:
+        print "Invalid session number!"
+        s = len(sessions)
 
 if s == len(sessions) + 1:
     os.execvp('zsh', ['zsh'])
