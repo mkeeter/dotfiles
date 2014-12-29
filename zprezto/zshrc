@@ -34,3 +34,6 @@ export MAKEFLAGS='-j8'
 
 # Start fasd running
 eval "$(fasd --init auto)"
+
+# Ignore the /etc/hosts file, as it's being used to block internet junk
+zstyle ':completion:*:hosts' hosts ""
