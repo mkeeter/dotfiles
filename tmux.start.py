@@ -7,10 +7,10 @@ import subprocess
 if 'TMUX' in os.environ:
     sys.exit(0)
 
-tmux = '/usr/local/bin/tmux'
-if subprocess.call([tmux,'has-session','-t','_default']):
-    subprocess.call([tmux,'new-session','-s','_default','-d'])
+if subprocess.call(['pgrep','tmux'], stdout=open('/dev/null','w')):
+    os.execvp('zsh', ['zsh'])
 
+tmux = '/usr/local/bin/tmux'
 sessions = subprocess.check_output(
         [tmux,'list-sessions','-F','#S'])[:-1].split('\n')
 
