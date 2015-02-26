@@ -147,3 +147,7 @@ nnoremap <F1> :call ToggleFocusMode()<cr>
 command! -nargs=1 Silent
 \ | execute ':silent !'.<q-args>
 \ | execute ':redraw!'
+
+" Interpret .node files as python
+" (for Antimony development)
+au BufNewFile,BufRead *.node set filetype=python
