@@ -27,6 +27,7 @@ Bundle 'wincent/Command-T'
 Bundle 'jceb/vim-orgmode'
 Bundle 'tpope/vim-speeddating'
 Bundle 'vim-scripts/utl.vim'
+Bundle 'lukerandall/haskellmode-vim'
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on
