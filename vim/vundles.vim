@@ -24,10 +24,12 @@ Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'python.vim'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'wincent/Command-T'
-Bundle 'jceb/vim-orgmode'
 Bundle 'tpope/vim-speeddating'
 Bundle 'vim-scripts/utl.vim'
 Bundle 'lukerandall/haskellmode-vim'
+Bundle 'nelstrom/vim-markdown-folding'
+Bundle 'jceb/vim-orgmode'
+Bundle 'artoj/qmake-syntax-vim'
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on
