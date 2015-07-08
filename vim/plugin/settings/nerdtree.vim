@@ -6,3 +6,5 @@ let g:NERDTreeWinSize = 40
 
 " Close if NERDtree is the only window remaining
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+nmap <leader>d :NERDTree<CR>
