@@ -151,3 +151,6 @@ command! -nargs=1 Silent
 " Interpret .node files as python
 " (for Antimony development)
 au BufNewFile,BufRead *.node set filetype=python
+
+" ======== Required to make Fish happy ==============
+set shell=/bin/bash
