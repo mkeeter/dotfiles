@@ -12,9 +12,12 @@ set fish_plugins theme z brew git-flow tmux vi-mode
 # Load oh-my-fish configuration.
 . $fish_path/oh-my-fish.fish
 
-# Use MacVim rather than system vim
-alias vim=~/Applications/MacVim.app/Contents/MacOS/Vim
-set --export EDITOR ~/Applications/MacVim.app/Contents/MacOS/Vim
+# Make virtualenv work
+eval (python -m virtualfish)
+
+# Use vim as our default editor
+set --export EDITOR vim
+alias make="make -j8"
 
 # Set SHELL=fish (so tmux uses fish instead of zsh)
 set --export SHELL (which fish)
@@ -27,5 +30,4 @@ alias org="vim ~/org"
 set fish_user_paths ~/code/kokopelli                                  \
                     ~/code/gcc-arm-none-eabi-4_8-2013q4/bin           \
                     ~/mit/cba/repos/kokompe/dev/mod/bin               \
-                    ~/Library/Python/2.7/bin                          \
                     ~/Library/Haskell/bin
