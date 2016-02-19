@@ -30,6 +30,7 @@ Bundle 'lukerandall/haskellmode-vim'
 Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'jceb/vim-orgmode'
 Bundle 'artoj/qmake-syntax-vim'
+Bundle 'vimwiki/vimwiki'
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on

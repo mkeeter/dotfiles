@@ -25,6 +25,7 @@ set --export SHELL (which fish)
 # Useful aliases
 alias miniterm="python -m serial.tools.miniterm"
 alias org="vim ~/org"
+alias w="vim ~/wiki/index.md"
 
 # Customize PATH
 set fish_user_paths ~/code/kokopelli                                  \

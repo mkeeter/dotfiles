@@ -156,4 +156,4 @@ au BufNewFile,BufRead *.node set filetype=python
 set shell=/bin/bash
 
 " ======= Compile current project with ,b ===========
-nmap <leader>b :!cd build* && make<cr>
+nmap <leader>b :!cd build* && if [ -e Makefile ]; then make -j8; else ninja; fi<cr>
