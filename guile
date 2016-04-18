@@ -1,4 +1,3 @@
 (use-modules (ice-9 readline) (ice-9 colorized))
-(use-modules (system repl common))
 (activate-readline)
 (activate-colorized)

@@ -12,7 +12,7 @@ set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set mouse=a                     "Mouse is active
-set ttymouse=xterm2             "And gets scroll wheel
+set ttymouse=sgr                "And gets scroll wheel
 
 set timeoutlen=1000 ttimeoutlen=50 "Fast mode switching
 
