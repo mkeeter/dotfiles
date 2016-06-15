@@ -34,6 +34,9 @@ au BufNewFile,BufRead *.frag set filetype=c
 " Highlight .ipy files as Python
 au BufNewFile,BufRead *.ipy set filetype=python
 
+" Use two spaces per tab on Scheme files
+autocmd FileType scheme setlocal shiftwidth=2 tabstop=2
+
 " Disable modelines for security purposes
 set modelines=0
 

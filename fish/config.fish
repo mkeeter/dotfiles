@@ -14,7 +14,7 @@ alias w="vim ~/wiki/index.md"
 
 # Customize PATH
 set fish_user_paths ~/code/kokopelli                                  \
-                    ~/code/gcc-arm-none-eabi-4_8-2013q4/bin           \
+                    ~/code/gcc-arm-none-eabi-5_3-2016q1/bin           \
                     ~/mit/cba/repos/kokompe/dev/mod/bin               \
                     ~/Library/Haskell/bin                             \
                     /Developer/NVIDIA/CUDA-7.5/bin

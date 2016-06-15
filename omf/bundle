@@ -1,5 +1,6 @@
 package brew
 package vi-mode
 package z
+theme agnoster
 theme bobthefish
 theme budspencer
