@@ -16,7 +16,7 @@ alias w="vim ~/wiki/index.md"
 set fish_user_paths ~/code/kokopelli                                  \
                     ~/code/gcc-arm-none-eabi-5_3-2016q1/bin           \
                     ~/mit/cba/repos/kokompe/dev/mod/bin               \
-                    ~/Library/Haskell/bin                             \
+                    ~/.local/bin                                      \
                     /Developer/NVIDIA/CUDA-7.5/bin
 
 set -g Z_SCRIPT_PATH /usr/local/etc/profile.d/z.sh
