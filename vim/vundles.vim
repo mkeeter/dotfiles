@@ -17,20 +17,21 @@ call vundle#rc()
 Bundle "gmarik/vundle"
 
 Bundle 'gabrielhaim/vim-colors-solarized'
-Bundle 'scrooloose/nerdtree'
+
 Bundle 'tpope/vim-markdown'
-Bundle 'rking/ag.vim'
-Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'python.vim'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'wincent/Command-T'
-Bundle 'tpope/vim-speeddating'
-Bundle 'vim-scripts/utl.vim'
-Bundle 'lukerandall/haskellmode-vim'
 Bundle 'nelstrom/vim-markdown-folding'
-Bundle 'jceb/vim-orgmode'
+Bundle 'rking/ag.vim'
+Bundle 'python.vim'
 Bundle 'artoj/qmake-syntax-vim'
 Bundle 'vimwiki/vimwiki'
+
+Bundle 'scrooloose/nerdtree'
+Bundle 'christoomey/vim-tmux-navigator'
+
+Bundle 'Valloric/YouCompleteMe'
+
+Bundle 'wincent/Command-T'
+
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on
