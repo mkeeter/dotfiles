@@ -29,8 +29,9 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'christoomey/vim-tmux-navigator'
 
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'scrooloose/syntastic'
+Bundle 'eagletmt/ghcmod-vim'
 
+Bundle 'Shougo/vimproc.vim'
 Bundle 'wincent/Command-T'
 
 "Filetype plugin indent on is required by vundle
