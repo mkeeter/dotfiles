@@ -40,7 +40,3 @@ elif s == len(sessions):
                      raw_input("Enter new session name: ")])
 else:
     os.execvp(tmux, [tmux,'attach-session','-t', sessions[s]])
-
-
-
-

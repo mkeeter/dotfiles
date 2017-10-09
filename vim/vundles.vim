@@ -30,6 +30,8 @@ Bundle 'christoomey/vim-tmux-navigator'
 
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'eagletmt/ghcmod-vim'
+Bundle 'rust-lang/rust.vim'
+Bundle 'peterhoeg/vim-qml'
 
 Bundle 'Shougo/vimproc.vim'
 Bundle 'wincent/Command-T'

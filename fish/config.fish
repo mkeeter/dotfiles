@@ -11,13 +11,15 @@ set --export SHELL (which fish)
 # Useful aliases
 alias miniterm="python -m serial.tools.miniterm"
 alias w="vim ~/wiki/index.md"
+alias weather="curl wttr.in/somerville,ma"
 
 # Customize PATH
 set fish_user_paths ~/code/kokopelli                                  \
-                    ~/code/gcc-arm-none-eabi-5_3-2016q1/bin           \
+                    ~/code/gcc-arm-none-eabi-5_4-2016q2/bin           \
                     ~/mit/cba/repos/kokompe/dev/mod/bin               \
                     ~/.local/bin                                      \
-                    /Developer/NVIDIA/CUDA-7.5/bin
+                    /Developer/NVIDIA/CUDA-7.5/bin                    \
+                    ~/.cargo/bin
 
 set -g Z_SCRIPT_PATH /usr/local/etc/profile.d/z.sh
 
