@@ -1,3 +1,5 @@
-(use-modules (ice-9 readline) (ice-9 colorized))
+(use-modules (ice-9 readline))
 (activate-readline)
+
+(use-modules (ice-9 colorized))
 (activate-colorized)

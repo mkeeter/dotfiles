@@ -19,7 +19,8 @@ set fish_user_paths ~/code/kokopelli                                  \
                     ~/mit/cba/repos/kokompe/dev/mod/bin               \
                     ~/.local/bin                                      \
                     /Developer/NVIDIA/CUDA-7.5/bin                    \
-                    ~/.cargo/bin
+                    ~/.cargo/bin                                      \
+                    /usr/local/texlive/2014/bin/x86_64-darwin/ 
 
 set -g Z_SCRIPT_PATH /usr/local/etc/profile.d/z.sh
 

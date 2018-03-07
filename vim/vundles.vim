@@ -29,12 +29,13 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'christoomey/vim-tmux-navigator'
 
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'eagletmt/ghcmod-vim'
 Bundle 'rust-lang/rust.vim'
 Bundle 'peterhoeg/vim-qml'
 
 Bundle 'Shougo/vimproc.vim'
 Bundle 'wincent/Command-T'
+
+Bundle 'tmhedberg/SimpylFold'
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on

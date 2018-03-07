@@ -1,1 +1,1 @@
-autocmd BufWritePost *.hs :GhcModCheckAndLintAsync
+"autocmd BufWritePost *.hs :GhcModCheckAndLintAsync
