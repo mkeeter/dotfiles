@@ -12,6 +12,7 @@ set --export SHELL (which fish)
 alias miniterm="python -m serial.tools.miniterm"
 alias w="vim ~/wiki/index.md"
 alias weather="curl wttr.in/somerville,ma"
+alias fix-inkscape='wmctrl -r Inkscape -e 0,2560,1440,1200,700'
 
 # Customize PATH
 set fish_user_paths ~/code/kokopelli                                  \
@@ -34,3 +35,6 @@ set -gx OMF_CONFIG "/Users/mkeeter/.dotfiles/omf"
 
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish
+
+# Configure rbenv
+status --is-interactive; and source (rbenv init -|psub)
