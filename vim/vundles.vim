@@ -18,12 +18,12 @@ Bundle "VundleVim/Vundle.vim"
 
 Bundle 'altercation/vim-colors-solarized'
 
-Bundle 'tpope/vim-markdown'
-Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'rking/ag.vim'
 Bundle 'python.vim'
 Bundle 'artoj/qmake-syntax-vim'
 Bundle 'vimwiki/vimwiki'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 Bundle 'scrooloose/nerdtree'
 Bundle 'christoomey/vim-tmux-navigator'
@@ -36,6 +36,7 @@ Bundle 'Shougo/vimproc.vim'
 Bundle 'wincent/Command-T'
 
 Bundle 'tmhedberg/SimpylFold'
+Bundle 'jlanzarotta/bufexplorer'
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on

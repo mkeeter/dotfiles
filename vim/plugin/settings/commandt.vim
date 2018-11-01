@@ -4,3 +4,4 @@
 "endif
 
 let g:CommandTWildIgnore = &wildignore . ",moc_*.cpp"
+let g:CommandTTraverseSCM = "pwd"

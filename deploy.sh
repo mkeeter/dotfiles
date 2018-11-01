@@ -23,3 +23,13 @@ ln -s $(pwd)/fish/config.fish ~/.config/fish/config.fish
 ln -s $(pwd)/guile ~/.guile
 
 # install Inconsolata for Powerline
+
+# Tweak defaults
+defaults write com.googlecode.oterm2 HotkeyTermAnimationDuration -float 0.05
+
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
+defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadCornerSecondaryClick -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
