@@ -18,7 +18,7 @@ Bundle "VundleVim/Vundle.vim"
 
 Bundle 'altercation/vim-colors-solarized'
 
-Bundle 'rking/ag.vim'
+Bundle 'mileszs/ack.vim'
 Bundle 'python.vim'
 Bundle 'artoj/qmake-syntax-vim'
 Bundle 'vimwiki/vimwiki'
