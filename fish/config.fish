@@ -13,9 +13,6 @@ alias miniterm="python -m serial.tools.miniterm"
 alias w="vim ~/wiki/index.md"
 alias weather="curl --silent wttr.in/somerville,ma|grep -v wttr"
 alias fix-inkscape='wmctrl -r Inkscape -e 0,2560,1440,1200,700'
-alias ts='tmux new-session -s '
-alias ta='tmux attach -t '
-alias tl='tmux list-sessions'
 alias git-merge-log='git log --format=\'format:# %cd %H %s\' --date=short --first-parent --reverse'
 
 # Customize PATH
