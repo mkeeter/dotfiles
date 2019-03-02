@@ -3,7 +3,7 @@ set --export EDITOR vim
 alias make="make -j8"
 
 # Make virtualenvs work
-#eval (python3 -m virtualfish)
+eval (python3 -m virtualfish)
 
 # Set SHELL=fish (so tmux uses fish instead of zsh)
 set --export SHELL (which fish)
@@ -15,10 +15,13 @@ alias weather="curl --silent wttr.in/somerville,ma|grep -v wttr"
 alias fix-inkscape='wmctrl -r Inkscape -e 0,2560,1440,1200,700'
 alias git-merge-log='git log --format=\'format:# %cd %H %s\' --date=short --first-parent --reverse'
 
-# Customize PATH
+# Configure Z for fast jumping
 set -g Z_SCRIPT_PATH /usr/local/etc/profile.d/z.sh
 
-set fish_user_paths ~/formlabs/mordor/firmwares/toolchain/gcc-arm-none-eabi/bin \
-                    ~/.cargo/bin ~/go/bin ~/.dotfiles/git/
+# Customize PATH
+set fish_user_paths /usr/local/bin ~/.cargo/bin ~/go/bin
 
 set fish_greeting
+
+# Configure rbenv
+status --is-interactive; and source (rbenv init -|psub)
