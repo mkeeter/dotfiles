@@ -1,11 +1,11 @@
-" Work around https://github.com/vim/vim/issues/3117
-if has('python3')
-  silent! python3 1
-endif
-
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
+
+" Fix Python3 import bug (https://github.com/vim/vim/issues/3117)
+if has('python3')
+  silent! python3 1
+endif
 
 " ================ General Config ====================
 set number                      "Line numbers are good
