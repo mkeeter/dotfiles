@@ -31,6 +31,9 @@ ln -s $(pwd)/guile ~/.guile
 # Powerline
 ln -s $(pwd)/powerline ~/.config/powerline
 
+# htop
+ln -s $(pwd)/htop ~/.config/htop
+
 # Tweak defaults
 defaults write com.googlecode.oterm2 HotkeyTermAnimationDuration -float 0.05
 
