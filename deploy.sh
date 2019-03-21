@@ -1,8 +1,10 @@
 #!/bin/sh
+set -e -x
 
 # Basics
 brew install python macvim
 pip install powerline-status psutil
+mkdir -p ~/.config
 
 # Vim
 ln -s $(pwd)/vim ~/.vim
@@ -25,6 +27,9 @@ ln -s $(pwd)/fish/completions ~/.config/fish/completions
 ln -s $(pwd)/guile ~/.guile
 
 # install Inconsolata for Powerline
+
+# Powerline
+ln -s $(pwd)/powerline ~/.config/powerline
 
 # Tweak defaults
 defaults write com.googlecode.oterm2 HotkeyTermAnimationDuration -float 0.05
