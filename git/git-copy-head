@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+BRANCH=$(git rev-parse HEAD)
+echo -n $BRANCH | pbcopy
+echo "Copied '$BRANCH' to clipboard"
