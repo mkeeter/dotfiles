@@ -18,25 +18,21 @@ Bundle "VundleVim/Vundle.vim"
 
 Bundle 'altercation/vim-colors-solarized'
 
-Bundle 'mileszs/ack.vim'
-Bundle 'python.vim'
-Bundle 'artoj/qmake-syntax-vim'
 Bundle 'vimwiki/vimwiki'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
 
 Bundle 'scrooloose/nerdtree'
 Bundle 'christoomey/vim-tmux-navigator'
 
 Bundle 'Valloric/YouCompleteMe'
+
+" Language support
+Bundle 'python.vim'
+Bundle 'artoj/qmake-syntax-vim'
 Bundle 'rust-lang/rust.vim'
 Bundle 'peterhoeg/vim-qml'
 
-Bundle 'Shougo/vimproc.vim'
-Bundle 'tmhedberg/SimpylFold'
-
+" FZF everywhere
 Bundle 'junegunn/fzf.vim'
-Bundle 'mhinz/vim-grepper'
 set rtp+=/usr/local/opt/fzf
 
 "Filetype plugin indent on is required by vundle
