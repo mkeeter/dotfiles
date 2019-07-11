@@ -33,10 +33,11 @@ Bundle 'rust-lang/rust.vim'
 Bundle 'peterhoeg/vim-qml'
 
 Bundle 'Shougo/vimproc.vim'
-Bundle 'wincent/Command-T'
-
 Bundle 'tmhedberg/SimpylFold'
-Bundle 'jlanzarotta/bufexplorer'
+
+Bundle 'junegunn/fzf.vim'
+Bundle 'mhinz/vim-grepper'
+set rtp+=/usr/local/opt/fzf
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on
