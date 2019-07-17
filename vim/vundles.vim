@@ -33,6 +33,7 @@ Bundle 'peterhoeg/vim-qml'
 
 " FZF everywhere
 Bundle 'junegunn/fzf.vim'
+Bundle 'mhinz/vim-grepper'
 set rtp+=/usr/local/opt/fzf
 
 "Filetype plugin indent on is required by vundle
