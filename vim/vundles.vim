@@ -30,6 +30,7 @@ Bundle 'python.vim'
 Bundle 'artoj/qmake-syntax-vim'
 Bundle 'rust-lang/rust.vim'
 Bundle 'peterhoeg/vim-qml'
+Bundle 'ziglang/zig.vim'
 
 " FZF everywhere
 Bundle 'junegunn/fzf.vim'
