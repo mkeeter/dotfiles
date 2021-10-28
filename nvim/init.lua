@@ -25,5 +25,10 @@ vim.o.listchars="tab:»·,trail:·"
 -- Use , as the leader key
 vim.g.mapleader = ","
 
+-- Set current directory
+vim.cmd[[cd %:p:h]]
+
 -- Load all of our plugins
 require('plugins')
+
+require('rust-config')
