@@ -61,8 +61,10 @@ return require('packer').startup(function()
       -- Tweak the default configuration to put the diff stats into section
       -- c instead of b (which has the correct background color)
       require'lualine'.setup {
-          options = { theme = 'solarized_dark' },
-          disabled_filetypes = {'NvimTree'},
+          options = {
+            theme = 'solarized_dark',
+          },
+          extensions = {'nvim-tree'},
           sections = {
             lualine_b = {'branch'},
             lualine_c = {'diff', 'filename', {'diagnostics', sources={'nvim_lsp'}}},
