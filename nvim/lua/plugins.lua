@@ -16,8 +16,10 @@ return require('packer').startup(function()
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       vim.api.nvim_set_keymap('n', '<Leader>d', ':NvimTreeOpen<cr>', {noremap = true})
-      vim.api.nvim_set_var('nvim_tree_hide_dotfiles', 1)
       require'nvim-tree'.setup {
+        filters = {
+          dotfiles = true,
+        },
         hijack_cursor = true,
         update_cwd = true,
         auto_close = true,
@@ -60,6 +62,7 @@ return require('packer').startup(function()
       -- c instead of b (which has the correct background color)
       require'lualine'.setup {
           options = { theme = 'solarized_dark' },
+          disabled_filetypes = {'NvimTree'},
           sections = {
             lualine_b = {'branch'},
             lualine_c = {'diff', 'filename', {'diagnostics', sources={'nvim_lsp'}}},
