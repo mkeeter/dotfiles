@@ -76,7 +76,6 @@ cmp.setup({
   -- Installed sources
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'vsnip' },
     { name = 'path' },
     { name = 'buffer' },
   },
