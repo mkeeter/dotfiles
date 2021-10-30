@@ -28,6 +28,7 @@ return require('packer').startup(function()
   -- vim-tmux-navigator
   use 'christoomey/vim-tmux-navigator'
 
+  -- Universal search
   use {
     'nvim-telescope/telescope.nvim',
     requires = 'nvim-lua/plenary.nvim',
@@ -53,9 +54,17 @@ return require('packer').startup(function()
   use {
     'nvim-lualine/lualine.nvim',
     config = function()
+      -- Hide mode, since it's visible in lualine
       vim.o.showmode = false
+      -- Tweak the default configuration to put the diff stats into section
+      -- c instead of b (which has the correct background color)
       require'lualine'.setup {
-          options = { theme = 'solarized_dark' }
+          options = { theme = 'solarized_dark' },
+          sections = {
+            lualine_b = {'branch'},
+            lualine_c = {'diff', 'filename', {'diagnostics', sources={'nvim_lsp'}}},
+            lualine_x = {'encoding', 'filetype'},
+          }
       }
     end
   }
@@ -83,6 +92,25 @@ return require('packer').startup(function()
           enable = false
         }
       }
+    end
+  }
+
+  -- Personal wiki
+  use {
+    'vimwiki/vimwiki',
+    config = function()
+      vim.api.nvim_set_var('vimwiki_list', {
+          {path = '~/wiki',
+           syntax = 'markdown',
+           ext = '.md' }})
+      vim.cmd[[
+        hi link VimwikiHeader1 pandocBlockQuoteLeader4
+        hi link VimwikiHeader2 pandocBlockQuoteLeader3
+        hi link VimwikiHeader3 pandocBlockQuoteLeader2
+        hi link VimwikiHeader4 pandocBlockQuoteLeader1
+        hi link VimwikiHeader5 pandocBlockQuoteLeader5
+        hi link VimwikiHeader6 pandocBlockQuoteLeader6
+      ]]
     end
   }
 end)
