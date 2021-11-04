@@ -1,21 +1,17 @@
-vim.cmd([[
-" Set completeopt to have a better completion experience
-" :help completeopt
-" menuone: popup even when there's only one match
-" noinsert: Do not insert text until a selection is made
-" noselect: Do not select, force user to select one from the menu
-set completeopt=menuone,noinsert,noselect
+-- Set completeopt to have a better completion experience
+-- :help completeopt
+-- menuone: popup even when there's only one match
+-- noinsert: Do not insert text until a selection is made
+-- noselect: Do not select, force user to select one from the menu
+vim.o.completeopt = "menuone,noinsert,noselect"
 
-" Avoid showing extra messages when using completion
-set shortmess+=c
-]])
+-- Avoid showing extra messages when using completion
+vim.o.shortmess = vim.o.shortmess .. "c"
 
 -- Configure LSP through rust-tools.nvim plugin.
 -- rust-tools will configure and enable certain LSP features for us.
 -- See https://github.com/simrat39/rust-tools.nvim#configuration
-local nvim_lsp = require'lspconfig'
-
-local opts = {
+require('rust-tools').setup{
     tools = { -- rust-tools options
         autoSetHints = true,
         hover_with_actions = true,
@@ -45,8 +41,7 @@ local opts = {
     },
 }
 
-require('rust-tools').setup(opts)
-
+--------------------------------------------------------------------------------
 -- Setup Completion
 -- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
 local cmp = require'cmp'
@@ -80,3 +75,8 @@ cmp.setup({
     { name = 'buffer' },
   },
 })
+
+-- Disable autocomplete for VimWiki buffers
+vim.cmd[[
+autocmd FileType VimWiki lua require('cmp').setup.buffer { enabled = false }
+]]

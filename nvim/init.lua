@@ -31,4 +31,5 @@ vim.cmd[[cd %:p:h]]
 -- Load all of our plugins
 require('plugins')
 
-require('rust-config')
+-- Post-load configuration
+require('config')
