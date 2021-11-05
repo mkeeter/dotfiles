@@ -134,11 +134,15 @@ return require('packer').startup{function()
     ]]
     end
   }
-  use 'hrsh7th/cmp-nvim-lsp'
+  use {
+    'hrsh7th/cmp-nvim-lsp',
+    ft = "rust",
+  }
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-buffer'
   use {
     'simrat39/rust-tools.nvim',
+    ft = "rust",
     config = function()
       vim.o.signcolumn = 'yes'
 
@@ -178,6 +182,7 @@ return require('packer').startup{function()
   }
   use {
     'glepnir/lspsaga.nvim',
+    ft = "rust",
     config = function()
       require'lspsaga'.init_lsp_saga{
         code_action_prompt = {
