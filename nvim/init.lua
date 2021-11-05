@@ -30,6 +30,3 @@ vim.cmd[[cd %:p:h]]
 
 -- Load all of our plugins
 require('plugins')
-
--- Post-load configuration
-require('config')
