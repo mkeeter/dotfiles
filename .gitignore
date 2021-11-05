@@ -1,2 +1,3 @@
 vim/bundle/*
 nvim/plugin
+nvim/lua/packer_compiled.lua

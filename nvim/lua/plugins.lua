@@ -1,4 +1,4 @@
-return require('packer').startup(function()
+return require('packer').startup{function()
   -- Packer can manage itself
   use {
     'wbthomason/packer.nvim',
@@ -12,6 +12,8 @@ return require('packer').startup(function()
       ]])
     end
   }
+
+  use 'lewis6991/impatient.nvim'
 
   -- nvim-tree
   use {
@@ -203,4 +205,9 @@ return require('packer').startup(function()
       ]]
     end
   }
-end)
+end,
+config = {
+  -- Move to lua dir so impatient.nvim can cache it
+  compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua'
+}
+}

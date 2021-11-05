@@ -28,5 +28,9 @@ vim.g.mapleader = ","
 -- Set current directory
 vim.cmd[[cd %:p:h]]
 
+-- Plugin cache must be loaded before any other plugins
+require('impatient')
+require('packer_compiled')
+
 -- Load all of our plugins
 require('plugins')
