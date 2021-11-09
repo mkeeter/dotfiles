@@ -44,6 +44,19 @@ return require('packer').startup{function()
       vim.api.nvim_set_keymap('n', '<Leader>a', ':Telescope live_grep<cr>', {noremap = true})
       vim.api.nvim_set_keymap('n', '<Leader>b', ':Telescope buffers<cr>', {noremap = true})
       vim.api.nvim_set_keymap('n', '<Leader>h', ':Telescope help_tags<cr>', {noremap = true})
+      local actions = require "telescope.actions";
+      require('telescope').setup{
+        defaults = {
+          -- Default configuration for telescope goes here:
+          -- config_key = value,
+          mappings = {
+            i = {
+              ["<C-j>"] = actions.move_selection_next,
+              ["<C-k>"] = actions.move_selection_previous
+            }
+          }
+        }
+      }
     end
   }
 
