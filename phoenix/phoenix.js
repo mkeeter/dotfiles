@@ -1,69 +1,7 @@
 /**
- * PhizeUp.js - A reimplementation of basic SizeUp functionality using the Phoenix window manager.
- *
- *  Window partitions are as follows.
- *
- * +-----+-----+ +----------+ +-----+-----+ +--------------+
- * |     |     | |          | |     |     | |              |
- * |     |     | |    Up    | | TL  |  TR | |              |
- * |     |     | |          | |     |     | |  +--------+  |
- * |  L  |  R  | +----------+ +-----------+ |  | Center |  |
- * |     |     | |          | |     |     | |  +--------+  |
- * |     |     | |   Down   | | BL  |  BR | |              |
- * |     |     | |          | |     |     | |              |
- * +-----+-----+ +----------+ +-----+-----+ +--------------+
- *
- * The default configuration uses SizeUp like keybinds.
- *
- * However, my preferred keybinds reuse the same cmd,ctrl,alt, modifier keys and use the `rtfg`
- * letter keys on the keyboard, instead of changing modifier keys.
- *
- * Additional Partitions
- * ---------------------
- *
- * In addition I have added the following partitions, which are really only
- * useful on larger screens.
- *
- * These are bound to the number pad keys, as when I have a large screen attached, I have a full-sized keyboard.
- *
- * Below the keybinds are listed as;
- * Partition
- * (Numpad Key)
- *
- * +-----------------------------+
- * |         |         |         |
- * |   TL6   |   TC6   |   TR6   |
- * |   (7)   |   (8)   |   (9)   |
- * +-----------------------------+
- * |         |         |         |
- * |   BL6   |   BC6   |   BR6   |
- * |   (4)   |   (5)   |   (6)   |
- * +-----------------------------+
- *
- * +-----------------------------+
- * |         |         |         |
- * |  Left   |  Centre |  Right  |
- * |  Third  |  Third  |  Third  |
- * |   (1)   |   (2)   |   (3)   |
- * |         |         |         |
- * +-----------------------------+
- *
- * Credits
- * -------
- *
- * Original keybinds and the SizeUp name - SizeUp - http://www.irradiatedsoftware.com/sizeup/
- *
- * TODO List:
- * - Add spaces support.
- *
- * - Reuse the same modal object.
- * - Convert whole script to an object
- * - Simplify the configuration.
- * - Convert all movement messages to unicode box drawings.
- *
- * Known Bugs
- * - When resizing windows which define a minimum size (e.g. Spotify) when placed in a
- *   small size at a screen edge may push onto another monitor.
+ * Originally based on
+ * https://github.com/garrow/phoenix-configurations/blob/master/phizeup/phizeup.js
+ * but then I deleted most of it.
  */
 
 "use strict";
@@ -77,114 +15,16 @@ var config = {
 };
 
 var setupHandlers = function(useSizeUpDefaults){
-    var modKeys1 =   ['alt', 'cmd'],
-        modKeys2 =   ['ctrl', 'alt', 'shift'],
-        screenKeys = ['ctrl', 'alt', 'cmd'];
-
-    var quarters;
-
-    if (useSizeUpDefaults) {
-        quarters = [
-            new Key('left',  modKeys2, putWindow('topLeft')),
-            new Key('up',    modKeys2, putWindow('topRight')),
-            new Key('down',  modKeys2, putWindow('bottomLeft')),
-            new Key('right', modKeys2, putWindow('bottomRight')),
-        ]
-    } else {
-        // The alternative keymap allows using the RTFG keys as diagonal directional arrows.
-        quarters = [
-            new Key('r', modKeys1, putWindow('topLeft')),
-            new Key('t', modKeys1, putWindow('topRight')),
-            //new Key('f', modKeys1, putWindow('bottomLeft')),
-            new Key('g', modKeys1, putWindow('bottomRight')),
-        ]
-    }
+    var screenKeys = ['alt', 'cmd'];
 
     return {
-        up:          new Key('up',    modKeys1, putWindow('up')),
-        down:        new Key('down',  modKeys1, putWindow('down')),
-        left:        new Key('left',  modKeys1, putWindow('left')),
-        right:       new Key('right', modKeys1, putWindow('right')),
+        left:        new Key('left',  screenKeys, putWindow('left')),
+        right:       new Key('right', screenKeys, putWindow('right')),
 
-        thirds: [
-            new Key('keypad1',     modKeys1, putWindow('leftThird')),
-            new Key('keypad2',     modKeys1, putWindow('centreThird')),
-            new Key('keypad3',     modKeys1, putWindow('rightThird')),
-
-            new Key('keypad0',     modKeys1, putWindow('left2Thirds')),
-            new Key('keypad.',     modKeys1, putWindow('right2Thirds')),
-        ],
-
-        // Allows pushing window thirds without a numpad
-        thirds_small: [
-            new Key(',',     modKeys1, putWindow('leftThird')),
-            new Key('.',     modKeys1, putWindow('centreThird')),
-            new Key('/',     modKeys1, putWindow('rightThird')),
-
-            new Key(';',     modKeys1, putWindow('left2Thirds')),
-            new Key("'",     modKeys1, putWindow('right2Thirds')),
-        ],
-
-        sixths: [
-            new Key('keypad7', modKeys1, putWindow('topLeftSix')),
-            new Key('keypad8', modKeys1, putWindow('topCentreSix')),
-            new Key('keypad9', modKeys1, putWindow('topRightSix')),
-            new Key('keypad4', modKeys1, putWindow('botLeftSix')),
-            new Key('keypad5', modKeys1, putWindow('botCentreSix')),
-            new Key('keypad6', modKeys1, putWindow('botRightSix')),
-        ],
-
-        quarters: quarters,
-
-        centre: [
-            new Key('c',       modKeys1, putWindow('centre')),
-            new Key('keypad-', modKeys1, putWindow('centre'))
-        ],
-
-        maximised:[
-            new Key('f',       modKeys1, maximise()),
-            new Key('keypad+', modKeys1, maximise()),
-        ],
-
-        screenNext: new Key('right',  screenKeys, putWindowScreen('next')),
-        screenPrev: new Key('left',   screenKeys, putWindowScreen('previous')),
+        maximised:   new Key('f',       screenKeys, maximise()),
     };
 };
 
-var Movements = {
-    up:          "½\n┏━━━┓\n┃┅╳┅┃\n┡━━━┩\n│┈┈┈│\n└───┘\nUp",
-    down:        "½\n┌───┐\n│┈┈┈│\n┢━━━┪\n┃┅╳┅┃\n┗━━━┛\nDown",
-
-    left:        "½\n┏━┱─┐\n┃┅┃┈│\n┃╳┃┈│\n┃┅┃┈│\n┗━┹─┘\nLeft",
-    right:       "½\n┌─┲━┓\n│┈┃┅┃\n│┈┃╳┃\n│┈┃┅┃\n└─┺━┛\nRight",
-
-    topLeft:     "¼\n┏━┱─┐\n┃╳┃┈│\n┡━╃─┤\n│┈│┈│\n└─┴─┘\nUp Left",
-    topRight:    "¼\n┌─┲━┓\n│┈┃╳┃\n├─╄━┩\n│┈│┈│\n└─┴─┘\nUp Right",
-    bottomLeft:  "¼\n┌─┬─┐\n│┈│┈│\n┢━╅─┤\n┃╳┃┈│\n┗━┹─┘\nDown Left",
-    bottomRight: "¼\n┌─┬─┐\n│┈│┈│\n├─╆━┪\n│┈┃╳┃\n└─┺━┛\nDown Right",
-
-    maximised:   "1\n┏━━━┓\n┃┈┈┈┃\n┃┈╳┈┃\n┃┈┈┈┃\n┗━━━┛\nFull Screen",
-    centre:      "¼\n┌───┐\n│┏━┓│\n│┃╳┃│\n│┗━┛│\n└───┘\nCentre",
-
-    leftThird:    "⅓\n┏━┱─┬─┐\n┃┅┃┈│┈│\n┃╳┃┈│┈│\n┃┅┃┈│┈│\n┗━┹─┴─┘\nLeft",
-    centreThird:  "⅓\n┌─┲━┱─┐\n│┈┃┅┃┈│\n│┈┃╳┃┈│\n│┈┃┅┃┈│\n└─┺━┹─┘\nCentre",
-    rightThird:   "⅓\n┌─┬─┲━┓\n│┈│┈┃┅┃\n│┈│┈┃╳┃\n│┈│┈┃┅┃\n└─┴─┺━┛\nRight",
-
-    left2Thirds:  "⅔\n┏━━━┱─┐\n┃┅┅┅┃┈│\n┃┅╳┅┃┈│\n┃┅┅┅┃┈│\n┗━━━┹─┘\nLeft ⅔",
-    right2Thirds: "⅔\n┌─┲━━━┓\n│┈┃┅┅┅┃\n│┈┃┅╳┅┃\n│┈┃┅┅┅┃\n└─┺━━━┛\nRight ⅔",
-
-    topLeftSix:   "⅙\n┏━┱─┬─┐\n┃╳┃┈│┈│\n┡━╃─┼─┤\n│┈│┈│┈│\n└─┴─┴─┘\nUp Left",
-    topCentreSix: "⅙\n┌─┲━┱─┐\n│┈┃╳┃┈│\n├─╄━╃─┤\n│┈│┈│┈│\n└─┴─┴─┘\nUp Centre",
-    topRightSix:  "⅙\n┌─┬─┲━┓\n│┈│┈┃╳┃\n├─┼─╄━┩\n│┈│┈│┈│\n└─┴─┴─┘\nUp Right",
-    botLeftSix:   "⅙\n┌─┬─┬─┐\n│┈│┈│┈│\n┢━╅─┼─┤\n┃╳┃┈│┈│\n┗━┹─┴─┘\nDown Left",
-    botCentreSix: "⅙\n┌─┬─┬─┐\n│┈│┈│┈│\n├─╆━╅─┤\n│┈┃╳┃┈│\n└─┺━┹─┘\nDown Centre",
-    botRightSix:  "⅙\n┌─┬─┬─┐\n│┈│┈│┈│\n├─┼─╆━┪\n│┈│┈┃╳┃\n└─┴─┺━┛\nDown Right",
-
-    // Safely fall back to a plain text label.
-    get: function(direction) {
-        return this[direction] || direction.toString();
-    },
-};
 
 /**
  * Sometimes a window doesn't actually exist.
@@ -212,7 +52,6 @@ var putWindow = function(direction){
         withWindow(Window.focused(), function(window) {
             var screenFrame = window.screen().flippedFrame();
 
-            windowMovedAlert(Movements.get(direction), window);
             setInSubFrame(window, screenFrame, direction);
         });
     };
@@ -237,7 +76,6 @@ var setInSubFrame = function(window, parentFrame, direction) {
 var maximise = function() {
     return function () {
         withWindow(Window.focused(), function(window){
-            windowMovedAlert(Movements.maximised, window);
             window.maximise();
         });
     };
@@ -308,124 +146,6 @@ var getSubFrame = function(parentFrame, direction) {
 
     return subFrames[direction];
 };
-/**
- * Render a Phoenix Modal with a string message.
- *
- * TODO - Reuse the same Modal object to avoid artifacts when repeating actions and building lots of modals.
- *
- * @param message
- * @param onScreen
- * @returns {Modal}
- */
-var alertModal = function (message, onScreen) {
-    var alertModal         = new Modal();
-    alertModal.duration    = config.movementAlertDuration;
-    alertModal.text        = message;
-    alertModal.appearance  = 'dark';
-
-    var screenFrame     = (onScreen || Screen.main()).frame();
-    var alertFrame      = alertModal.frame();
-
-    alertModal.origin = {
-        x:  (screenFrame.x + (screenFrame.width * 0.5)) - (alertFrame.width * 0.5),
-        y:  (screenFrame.y + (screenFrame.height * 0.5)) - (alertFrame.height * 0.5)
-    };
-
-    alertModal.show();
-
-    return alertModal;
-};
-
-/**
- * Places an alertModal on the screen the window was on, with the provided text message.
- *
- * @param message
- * @param window
- */
-var windowMovedAlert = function(message, window) {
-    if (window) {
-        alertModal(message, window.screen());
-    }
-};
-
-
-var putWindowScreen = function(toScreen) {
-    return function() {
-        var window = Window.focused();
-
-
-        if (window == undefined) {
-            alertModal("NO Windows for current app");
-            return;
-        }
-
-
-        var currentScreen = window.screen();
-        var screenList = Screen.all();
-
-        if (screenList.length < 2) {
-            alertModal("NO SCREENS");
-            return;
-        }
-
-        var op = "";
-
-        op += "Current Screen ID: " + currentScreen.identifier() + "\n";
-
-
-        var candidateOtherScreens = _.reject(screenList, function(s){ return s.identifier() == currentScreen.identifier() });
-
-        _.map(candidateOtherScreens, function(s) {
-            op += "Screen ID: " + s.identifier() + "\n" + JSON.stringify(s.flippedFrame()) + "\n";
-        });
-
-        var newScreenFrame = candidateOtherScreens[0].flippedFrame();
-
-        op += "New Screen Frame " + JSON.stringify(newScreenFrame) + "\n";
-
-        var newXOffset = newScreenFrame['x'];
-        var newYOffset = newScreenFrame['y'];
-
-        var oldFrame = window.frame();
-
-        // debug(candidateOtherScreens);
-
-        op += "Old Frame " + JSON.stringify(oldFrame) + "\n";
-
-        // debug(newYOffset);
-
-        var newFrame = {
-            x: newXOffset,
-            y: newYOffset,
-            width: oldFrame.width,
-            height: oldFrame.height
-        };
-
-        // debug(newFrame);
-
-        op += "New Frame " + JSON.stringify(newFrame) + "\n";
-        // windowMovedAlert(op);
-
-
-
-        alertModal("MOVE SCREEN");
-        window.setFrame(newFrame);
-
-
-        // Phoenix.notify(JSON.stringify(screen.flippedFrame()));
-        // Phoenix.notify(JSON.stringify(screen.identifier()));
-
-    };
-};
-
-
-
-function debug(o){
-    Phoenix.notify(JSON.stringify(o));
-}
-
-function debugscreen(){debug((Window.focused().screen().flippedFrame()))}
-
 
 // Phoenix requires us to keep a reference to the key handlers.
 var keyHandlers = setupHandlers(config.sizeUpDefaults);
