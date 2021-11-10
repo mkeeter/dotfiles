@@ -2,9 +2,6 @@
 set --export EDITOR vim
 alias make="make -j8"
 
-# Set SHELL=fish (so tmux uses fish instead of zsh)
-set --export SHELL (which fish)
-
 # Useful aliases
 alias weather="curl --silent wttr.in/somerville,ma|grep -v wttr"
 
@@ -21,3 +18,6 @@ switch (uname)
     case Darwin
         source ~/.config/fish/config.darwin.fish
 end
+
+# Set SHELL=fish (so tmux uses fish instead of zsh)
+set --export SHELL (which fish)

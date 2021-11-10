@@ -20,8 +20,12 @@ ln -s ~/.tmux/tmux.conf ~/.tmux.conf
 
 # Fish shell
 ln -s $(pwd)/fish/config.fish ~/.config/fish/config.fish
+ln -s $(pwd)/fish/config.darwin.fish ~/.config/fish/config.darwin.fish
 ln -s $(pwd)/fish/functions ~/.config/fish/functions
 ln -s $(pwd)/fish/completions ~/.config/fish/completions
+
+curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+fish -c "omf install robbyrussell z"
 
 # Guile Scheme
 ln -s $(pwd)/guile ~/.guile
