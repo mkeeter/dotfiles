@@ -2,6 +2,9 @@ vim.o.number = true
 vim.o.mouse = 'a'
 vim.o.colorcolumn = '80'
 
+-- Allow unsaved changes in non-open windows
+vim.o.hidden = true
+
 -- Yank to and put from system clipboard
 vim.o.clipboard = 'unnamed'
 
