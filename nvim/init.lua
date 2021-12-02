@@ -25,6 +25,9 @@ vim.o.linebreak = true
 vim.o.list = true
 vim.o.listchars="tab:»·,trail:·"
 
+vim.o.wildmode = 'longest,list,full'
+vim.o.wildmenu = true
+
 -- Use , as the leader key
 vim.g.mapleader = ","
 
