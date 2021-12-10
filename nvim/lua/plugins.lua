@@ -158,6 +158,7 @@ return require('packer').startup{function()
     ft = "rust",
     config = function()
       vim.o.signcolumn = 'yes'
+      vim.cmd [[ autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 200) ]]
 
       -- Configure LSP through rust-tools.nvim plugin.
       -- rust-tools will configure and enable certain LSP features for us.
@@ -186,6 +187,9 @@ return require('packer').startup{function()
               -- enable clippy on save
               checkOnSave = {
                 command = "clippy"
+              },
+              diagnostics = {
+                disabled = {"inactive-code"}
               },
             }
           }
