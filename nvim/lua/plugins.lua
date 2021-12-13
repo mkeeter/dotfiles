@@ -85,7 +85,7 @@ return require('packer').startup{function()
           extensions = {'nvim-tree'},
           sections = {
             lualine_b = {'branch'},
-            lualine_c = {'diff', 'filename', {'diagnostics', sources={'nvim_lsp'}}},
+            lualine_c = {'diff', 'filename', {'diagnostics', sources={'nvim_diagnostic'}}},
             lualine_x = {'encoding', 'filetype'},
           }
       }
