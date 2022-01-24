@@ -37,6 +37,9 @@ vim.cmd[[cd %:p:h]]
 -- Bind 'q' to close a quickfix window
 vim.cmd[[autocmd BufWinEnter quickfix nnoremap <buffer> q :cclose<CR>]]
 
+-- Allow for persistent undo
+vim.o.undofile = true
+
 -- Plugin cache must be loaded before any other plugins
 -- (TODO: remove when https://github.com/neovim/neovim/pull/15436 is merged)
 require('impatient')
