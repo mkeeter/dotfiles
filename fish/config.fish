@@ -36,8 +36,18 @@ case mjk
     function h
         humility $argv
     end
+    # Use `x` as an alias for `cargo xtask`, plus updating `HUMILITY_ARCHIVE`
+    # if we're running a build or flash operation
     function x
         cargo xtask $argv
+        if [ $argv[1] = "dist" -o $argv[1] = "build" ]
+            for var in $argv[2..]
+                if string match -q -- "app/*.toml" $var
+                    set name (dasel select -f $var -p toml name)
+                    export HUMILITY_ARCHIVE=(pwd)/target/$name/dist/build-$name.zip
+                end
+            end
+        end
     end
 end
 
