@@ -139,13 +139,28 @@ return require('packer').startup{function()
           { name = 'path' },
           { name = 'buffer' },
         },
-      }
+
+        enabled = function()
+          local ctx = require"cmp.config.context"
+          if ctx.in_syntax_group("Comment") or
+             ctx.in_treesitter_capture("comment")
+          then
+            return false
+          else
+            return true
+          end
+       end
+    }
 
     -- Disable autocomplete for VimWiki buffers
     vim.cmd[[
     autocmd FileType VimWiki lua require('cmp').setup.buffer { enabled = false }
     ]]
     end
+  }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
   }
   use {
     'hrsh7th/cmp-nvim-lsp',
