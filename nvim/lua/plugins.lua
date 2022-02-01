@@ -239,6 +239,8 @@ return require('packer').startup{function()
         hi link VimwikiHeader4 pandocBlockQuoteLeader1
         hi link VimwikiHeader5 pandocBlockQuoteLeader5
         hi link VimwikiHeader6 pandocBlockQuoteLeader6
+        map <leader>w<leader>d :VimwikiDiaryPrevDay<CR>
+        map <leader>w<leader>f :VimwikiDiaryNextDay<CR>
       ]]
     end
   }
