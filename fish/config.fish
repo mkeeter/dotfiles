@@ -41,6 +41,7 @@ case mjk
     function x
         if string match -q -- "*hubris*" (pwd)
             cargo xtask $argv
+            set -l out $status
             if [ "$argv[1]" = "dist" -o "$argv[1]" = "flash" ]
                 for var in $argv[2..]
                     if string match -q -- "app/*.toml" $var
@@ -49,6 +50,7 @@ case mjk
                     end
                 end
             end
+            return $out
         else
             echo "Error: `x` is only allowed in a `hubris` directory" 1>&2
         end
