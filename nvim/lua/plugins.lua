@@ -213,7 +213,7 @@ return require('packer').startup{function()
     end
   }
   use {
-    'glepnir/lspsaga.nvim',
+    'tami5/lspsaga.nvim',
     ft = "rust",
     config = function()
       require'lspsaga'.init_lsp_saga{
