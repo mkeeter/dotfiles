@@ -143,7 +143,8 @@ return require('packer').startup{function()
         enabled = function()
           local ctx = require"cmp.config.context"
           if ctx.in_syntax_group("Comment") or
-             ctx.in_treesitter_capture("comment")
+             ctx.in_treesitter_capture("comment") or
+             ctx.in_syntax_group("SpecialComment")
           then
             return false
           else
