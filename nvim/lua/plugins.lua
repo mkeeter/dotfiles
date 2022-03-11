@@ -156,6 +156,7 @@ return require('packer').startup{function()
     -- Disable autocomplete for VimWiki buffers
     vim.cmd[[
     autocmd FileType VimWiki lua require('cmp').setup.buffer { enabled = false }
+    autocmd FileType asciidoc lua require('cmp').setup.buffer { enabled = false }
     ]]
     end
   }
