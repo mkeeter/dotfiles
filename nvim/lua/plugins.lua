@@ -27,7 +27,6 @@ return require('packer').startup{function()
         },
         hijack_cursor = true,
         update_cwd = true,
-        auto_close = true,
       }
     end
   }
@@ -203,7 +202,8 @@ return require('packer').startup{function()
             ["rust-analyzer"] = {
               -- enable clippy on save
               checkOnSave = {
-                command = "clippy"
+                command = "clippy",
+                extraArgs = { '--target-dir', 'target/rust-analyzer' },
               },
               diagnostics = {
                 disabled = {"inactive-code"}
