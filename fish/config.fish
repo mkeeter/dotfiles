@@ -59,4 +59,4 @@ end
 
 # Set SHELL=fish (so tmux uses fish instead of zsh)
 set --export SHELL (which fish)
-test -e /Users/mjk/.iterm2_shell_integration.fish ; and source /Users/mjk/.iterm2_shell_integration.fish ; or true
+test -e ~/.iterm2_shell_integration.fish ; and source ~/.iterm2_shell_integration.fish ; or true
