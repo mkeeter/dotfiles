@@ -33,6 +33,7 @@ switch (whoami)
 case mjk
     # Oxide account
     fish_add_path ~/oxide/humility/target/release
+    fish_add_path /opt/homebrew/opt/gnu-sed/libexec/gnubin
     function h
         humility $argv
     end
