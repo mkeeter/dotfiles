@@ -34,6 +34,9 @@ case mjk
     # Oxide account
     fish_add_path ~/oxide/humility/target/release
     fish_add_path /opt/homebrew/opt/gnu-sed/libexec/gnubin
+    fish_add_path ~/oxide/lengths-of-wire/hiring-cli/target/release
+    fish_add_path /Applications/ARM/bin
+    fish_add_path ~/Library/Python/3.9/bin
     function h
         humility $argv
     end
