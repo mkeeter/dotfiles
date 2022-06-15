@@ -149,14 +149,16 @@ return require('packer').startup{function()
           else
             return true
           end
-       end
-    }
+        end
+      }
 
-    -- Disable autocomplete for VimWiki buffers
-    vim.cmd[[
-    autocmd FileType VimWiki lua require('cmp').setup.buffer { enabled = false }
-    autocmd FileType asciidoc lua require('cmp').setup.buffer { enabled = false }
-    ]]
+      -- Disable autocomplete for VimWiki buffers
+      vim.api.nvim_create_autocmd({"FileType"}, {
+          pattern = {"VimWiki", "asciidoc"},
+          callback = function()
+            require'cmp'.setup.buffer { enabled = false }
+          end
+      })
     end
   }
   use {
@@ -174,7 +176,10 @@ return require('packer').startup{function()
     ft = "rust",
     config = function()
       vim.o.signcolumn = 'yes'
-      vim.cmd [[ autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 200) ]]
+      vim.api.nvim_create_autocmd({"BufWritePre"}, {
+        pattern = {"*.rs"},
+        callback = function() vim.lsp.buf.formatting_sync(nil, 200) end
+      })
 
       -- Configure LSP through rust-tools.nvim plugin.
       -- rust-tools will configure and enable certain LSP features for us.
