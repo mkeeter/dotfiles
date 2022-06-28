@@ -93,7 +93,21 @@ return require('packer').startup{function()
 
   -- Rust stuff
   -- https://sharksforarms.dev/posts/neovim-rust/
-  use 'neovim/nvim-lspconfig'
+  use {
+    'neovim/nvim-lspconfig',
+    config = function()
+      vim.o.updatetime = 750 -- triggers CursorHold more often
+      vim.api.nvim_create_autocmd({"CursorHold"}, {callback = function()
+        vim.diagnostic.open_float({focus = false})
+      end})
+      vim.diagnostic.config({
+        virtual_text = false,
+        signs = true,
+        underline = false,
+        float = { border = "single" },
+      })
+    end
+  }
   use {
     'hrsh7th/nvim-cmp',
     config = function()
