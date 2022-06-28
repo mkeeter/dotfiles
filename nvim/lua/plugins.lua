@@ -91,23 +91,14 @@ return require('packer').startup{function()
     end
   }
 
-  -- Fix for https://github.com/neovim/neovim/issues/12587 that lets us
-  -- trigger LSP popups faster, without flushing to disk 10x/second
-  use {
-    'antoinemadec/FixCursorHold.nvim',
-    config = function()
-      vim.g.cursorhold_updatetime = 400
-    end
-  }
-
   -- Rust stuff
   -- https://sharksforarms.dev/posts/neovim-rust/
   use {
     'neovim/nvim-lspconfig',
     config = function()
-      vim.api.nvim_create_autocmd({"CursorHold"}, {callback = function()
-        vim.diagnostic.open_float({focus = false})
-      end})
+      vim.api.nvim_set_keymap('n', '<Leader>ll',
+        ':lua vim.diagnostic.open_float({focus = false})<cr>',
+        {noremap = true})
       vim.diagnostic.config({
         virtual_text = false,
         signs = true,
