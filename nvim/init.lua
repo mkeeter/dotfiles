@@ -1,7 +1,10 @@
 vim.o.number = true
 vim.o.mouse = 'a'
 vim.o.colorcolumn = '80'
+
+-- Formatting and wrapping of comments
 vim.o.textwidth = 80
+vim.o.formatoptions = vim.o.formatoptions .. 'c'
 
 -- Allow unsaved changes in non-open windows
 vim.o.hidden = true

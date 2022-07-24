@@ -194,6 +194,8 @@ return require('packer').startup{function()
         callback = function() vim.lsp.buf.formatting_sync(nil, 200) end
       })
 
+      vim.cmd"let g:rust_recommended_style = 0"
+
       -- Configure LSP through rust-tools.nvim plugin.
       -- rust-tools will configure and enable certain LSP features for us.
       -- See https://github.com/simrat39/rust-tools.nvim#configuration
