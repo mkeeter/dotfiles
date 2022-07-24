@@ -1,6 +1,7 @@
 vim.o.number = true
 vim.o.mouse = 'a'
 vim.o.colorcolumn = '80'
+vim.o.textwidth = 80
 
 -- Allow unsaved changes in non-open windows
 vim.o.hidden = true
