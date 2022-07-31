@@ -50,7 +50,7 @@ case mjk
                 for var in $argv[2..]
                     if string match -q -- "app/*.toml" $var
                         set name (dasel select -f $var -p toml name)
-                        export HUMILITY_ARCHIVE=(pwd)/target/$name/dist/build-$name.zip
+                        export HUMILITY_ARCHIVE=(pwd)/target/$name/dist/default/build-$name.zip
                     end
                 end
             end
