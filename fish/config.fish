@@ -46,9 +46,9 @@ case mjk
         if string match -q -- "*hubris*" (pwd)
             cargo xtask $argv
             set -l out $status
-            if [ "$argv[1]" = "dist" -o "$argv[1]" = "flash" ]
+            if string match -q --regex -- "(dist|flash|test)" $argv[1]
                 for var in $argv[2..]
-                    if string match -q -- "app/*.toml" $var
+                    if string match -q --regex -- "(app|test)\/.*\.toml" $var
                         set name (dasel select -f $var -p toml name)
                         export HUMILITY_ARCHIVE=(pwd)/target/$name/dist/default/build-$name.zip
                     end
