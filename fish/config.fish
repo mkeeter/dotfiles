@@ -26,6 +26,9 @@ switch (uname)
 
         # Quick access to personal wiki
         alias w="nvim ~/wiki/index.md"
+
+        # Quick Python alias
+        alias py="ipython"
 end
 
 # Account-specific options
@@ -57,6 +60,7 @@ case mjk
             return $out
         else
             echo "Error: `x` is only allowed in a `hubris` directory" 1>&2
+            return 1
         end
     end
 end
