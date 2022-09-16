@@ -4,7 +4,7 @@ vim.o.colorcolumn = '80'
 
 -- Formatting and wrapping of comments
 vim.o.textwidth = 80
-vim.o.formatoptions = vim.o.formatoptions .. 'c'
+vim.o.formatoptions = 'qjcn'
 
 -- Allow unsaved changes in non-open windows
 vim.o.hidden = true
@@ -23,7 +23,6 @@ vim.o.tabstop = 4
 
 -- Wrapping
 vim.wo.wrap = false
-vim.o.linebreak = true
 
 -- Show trailing whitespace
 vim.o.list = true
@@ -45,7 +44,7 @@ vim.cmd[[autocmd BufWinEnter quickfix nnoremap <buffer> q :cclose<CR>]]
 vim.o.undofile = true
 
 -- Autocompile website whenever making changes
-vim.cmd[[autocmd BufWrite ~/Web/* !make]]
+vim.cmd[[autocmd BufWrite ~/Web/* silent exec "!make"]]
 
 -- Plugin cache must be loaded before any other plugins
 -- (TODO: remove when https://github.com/neovim/neovim/pull/15436 is merged)

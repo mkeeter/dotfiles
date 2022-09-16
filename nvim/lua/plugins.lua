@@ -99,6 +99,9 @@ return require('packer').startup{function()
       vim.api.nvim_set_keymap('n', '<Leader>ll',
         ':lua vim.diagnostic.open_float({focus = false})<cr>',
         {noremap = true})
+      vim.api.nvim_set_keymap('n', '<Leader>ld',
+        ':Lspsaga diagnostic_jump_next<cr>',
+        {noremap = true})
       vim.diagnostic.config({
         virtual_text = false,
         signs = true,
@@ -202,7 +205,6 @@ return require('packer').startup{function()
       require'rust-tools'.setup{
         tools = { -- rust-tools options
           autoSetHints = true,
-          hover_with_actions = true,
           inlay_hints = {
             show_parameter_hints = false,
             parameter_hints_prefix = "",
