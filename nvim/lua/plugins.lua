@@ -15,6 +15,17 @@ return require('packer').startup{function()
   use 'dag/vim-fish'
   use 'lewis6991/impatient.nvim'
 
+  use {
+    'rhaiscript/vim-rhai',
+  }
+
+  use {
+    'ggandor/leap.nvim'
+    config = function()
+      require('leap').set_default_keymaps()
+    end
+  }
+
   -- nvim-tree
   use {
     'kyazdani42/nvim-tree.lua',
