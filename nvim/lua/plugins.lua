@@ -22,7 +22,7 @@ return require('packer').startup{function()
   use {
     'ggandor/leap.nvim',
     config = function()
-      require('leap').set_default_keymaps()
+      vim.keymap.set('n', '<Leader>s', '<Plug>(leap-forward)', {silent = true})
     end
   }
 
