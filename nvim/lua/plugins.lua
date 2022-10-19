@@ -22,7 +22,8 @@ return require('packer').startup{function()
   use {
     'ggandor/leap.nvim',
     config = function()
-      vim.keymap.set('n', '<Leader>s', '<Plug>(leap-forward)', {silent = true})
+      vim.keymap.set('n', '<Space>', '<Plug>(leap-forward)', {silent = true})
+      vim.keymap.set('n', '<Leader><Space>', '<Plug>(leap-backward)', {silent = true})
     end
   }
 
