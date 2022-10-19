@@ -206,7 +206,7 @@ return require('packer').startup{function()
       vim.o.signcolumn = 'yes'
       vim.api.nvim_create_autocmd({"BufWritePre"}, {
         pattern = {"*.rs"},
-        callback = function() vim.lsp.buf.formatting_sync(nil, 200) end
+        callback = function() vim.lsp.buf.format({timeout_ms = 200}) end
       })
 
       vim.cmd"let g:rust_recommended_style = 0"
