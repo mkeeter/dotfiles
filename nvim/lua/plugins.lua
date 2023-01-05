@@ -200,7 +200,7 @@ return require('packer').startup{function()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-buffer'
   use {
-    'simrat39/rust-tools.nvim',
+    'kdarkhan/rust-tools.nvim',
     ft = "rust",
     config = function()
       vim.o.signcolumn = 'yes'
