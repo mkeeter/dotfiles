@@ -1,0 +1,6 @@
+#!/bin/bash
+for s in $(git branch --format='%(refname:short)')
+do
+    echo $s
+    hub pr list -h $s -s closed
+done

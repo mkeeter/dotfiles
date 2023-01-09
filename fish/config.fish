@@ -11,6 +11,7 @@ set -g Z_SCRIPT_PATH /usr/local/etc/profile.d/z.sh
 # Customize PATH
 fish_add_path /usr/local/bin
 fish_add_path ~/.cargo/bin
+fish_add_path ~/.dotfiles/bin
 fish_add_path ~/go/bin
 
 # Reset the greeting
