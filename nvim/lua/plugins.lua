@@ -12,12 +12,10 @@ return require('packer').startup{function()
       ]])
     end
   }
-  use 'dag/vim-fish'
-  use 'lewis6991/impatient.nvim'
 
-  use {
-    'rhaiscript/vim-rhai',
-  }
+  -- Add support for Fish and Rhai scripting
+  use 'dag/vim-fish'
+  use 'rhaiscript/vim-rhai'
 
   use {
     'ggandor/leap.nvim',
@@ -124,83 +122,13 @@ return require('packer').startup{function()
   }
   use {
     'hrsh7th/nvim-cmp',
-    config = function()
-      -- Set completeopt to have a better completion experience
-      -- :help completeopt
-      -- menuone: popup even when there's only one match
-      -- noinsert: Do not insert text until a selection is made
-      -- noselect: Do not select, force user to select one from the menu
-      vim.o.completeopt = "menuone,noinsert,noselect"
-
-      -- Avoid showing extra messages when using completion
-      vim.o.shortmess = vim.o.shortmess .. "c"
-
-      -- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
-      local cmp = require'cmp'
-      cmp.setup{
-        -- Enable LSP snippets
-        snippet = {
-          expand = function(args)
-              vim.fn["vsnip#anonymous"](args.body)
-          end,
-        },
-        mapping = {
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          -- Add tab support
-          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-          ['<Tab>'] = cmp.mapping.select_next_item(),
-          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.close(),
-          ['<CR>'] = cmp.mapping.confirm{
-            behavior = cmp.ConfirmBehavior.Insert,
-            select = true,
-          }
-        },
-
-        -- Installed sources
-        sources = {
-          { name = 'nvim_lsp' },
-          { name = 'path' },
-          { name = 'buffer' },
-        },
-
-        enabled = function()
-          local ctx = require"cmp.config.context"
-          if ctx.in_syntax_group("Comment") or
-             ctx.in_treesitter_capture("comment") or
-             ctx.in_syntax_group("SpecialComment")
-          then
-            return false
-          else
-            return true
-          end
-        end
-      }
-
-      -- Disable autocomplete for VimWiki buffers
-      vim.api.nvim_create_autocmd({"FileType"}, {
-          pattern = {"VimWiki", "asciidoc"},
-          callback = function()
-            require'cmp'.setup.buffer { enabled = false }
-          end
-      })
-    end
   }
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
   use {
-    'hrsh7th/cmp-nvim-lsp',
-    ft = "rust",
-  }
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-buffer'
-  use {
-    'kdarkhan/rust-tools.nvim',
+    'simrat39/rust-tools.nvim',
     ft = "rust",
     config = function()
       vim.o.signcolumn = 'yes'
@@ -248,6 +176,7 @@ return require('packer').startup{function()
       }
     end
   }
+
   use {
     'tami5/lspsaga.nvim',
     ft = "rust",
@@ -281,8 +210,4 @@ return require('packer').startup{function()
     end
   }
   end,
-  config = {
-    -- Move to lua dir so impatient.nvim can cache it
-    compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua'
-  }
 }
