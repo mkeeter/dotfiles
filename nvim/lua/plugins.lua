@@ -181,6 +181,9 @@ return require('packer').startup{function()
               if json["Ok"] ~= nil then
                 new_config.name = "rust_analyzer_" .. json.Ok.hash
                 cache[bufnr] = json
+              else
+                -- Why does this not work?
+                -- vim.notify(vim.inspect(json.Err), vim.log.levels.ERROR)
               end
             end
           end,
@@ -188,7 +191,8 @@ return require('packer').startup{function()
           on_attach = function(client, bufnr)
             local json = cache[bufnr]
             if json ~= nil then
-              local ra = client.config.settings["rust-analyzer"]
+              local config = vim.deepcopy(client.config)
+              local ra = config.settings["rust-analyzer"]
               ra.cargo = {
                 extraEnv = json.Ok.extraEnv,
                 target = json.Ok.target,
@@ -204,6 +208,7 @@ return require('packer').startup{function()
               ra.files = {
                 excludeDirs = json.Ok.excludeDirs
               }
+              client.config = config
             end
           end,
 
