@@ -106,12 +106,15 @@ return require('packer').startup{function()
   use {
     'neovim/nvim-lspconfig',
     config = function()
-      vim.api.nvim_set_keymap('n', '<Leader>ll',
-        ':lua vim.diagnostic.open_float({focus = false})<cr>',
-        {noremap = true})
-      vim.api.nvim_set_keymap('n', '<Leader>ld',
-        ':Lspsaga diagnostic_jump_next<cr>',
-        {noremap = true})
+      local bufopts = { noremap=true, silent=true }
+      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+      vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+      vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
       vim.diagnostic.config({
         virtual_text = false,
         signs = true,
@@ -139,6 +142,8 @@ return require('packer').startup{function()
 
       vim.cmd"let g:rust_recommended_style = 0"
 
+      local cache = {}
+
       -- Configure LSP through rust-tools.nvim plugin.
       -- rust-tools will configure and enable certain LSP features for us.
       -- See https://github.com/simrat39/rust-tools.nvim#configuration
@@ -152,12 +157,56 @@ return require('packer').startup{function()
           },
         },
 
-        -- all the opts to send to nvim-lspconfig
-        -- these override the defaults set by rust-tools.nvim
-        -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
         server = {
-          -- on_attach is a callback called when the language server attachs to the buffer
-          -- on_attach = on_attach,
+          on_new_config = function(new_config, new_root_dir)
+            local bufnr = vim.api.nvim_get_current_buf()
+            local bufname = vim.api.nvim_buf_get_name(bufnr)
+            local dir = new_config.root_dir()
+            if string.find(dir, "hubris") then
+              -- Run `xtask lsp` for the target file, which gives us a JSON
+              -- dictionary with bonus configuration.
+              local prev_cwd = vim.fn.getcwd()
+              vim.cmd("cd " .. dir)
+              local handle = io.popen(dir .. "/target/debug/xtask lsp " .. bufname)
+              handle:flush()
+              local result = handle:read("*a")
+              handle:close()
+              vim.cmd("cd " .. prev_cwd)
+
+              -- If the given file should be handled with special care, then
+              -- we give the rust-analyzer client a custom name (to prevent
+              -- multiple buffers from attaching to it), then cache the JSON in
+              -- a local variable for use in `on_attach`
+              local json = vim.json.decode(result)
+              if json["Ok"] ~= nil then
+                new_config.name = "rust_analyzer_" .. json.Ok.hash
+                cache[bufnr] = json
+              end
+            end
+          end,
+
+          on_attach = function(client, bufnr)
+            local json = cache[bufnr]
+            if json ~= nil then
+              local ra = client.config.settings["rust-analyzer"]
+              ra.cargo = {
+                extraEnv = json.Ok.extraEnv,
+                target = json.Ok.target,
+                noDefaultFeatures = true,
+                features = json.Ok.features,
+                buildScripts = {
+                  overrideCommand = json.Ok.buildOverrideCommand,
+                },
+              }
+              ra.check = {
+                overrideCommand = json.Ok.buildOverrideCommand,
+              }
+              ra.files = {
+                excludeDirs = json.Ok.excludeDirs
+              }
+            end
+          end,
+
           settings = {
             -- to enable rust-analyzer settings visit:
             -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
@@ -168,12 +217,20 @@ return require('packer').startup{function()
                 extraArgs = { '--target-dir', 'target/rust-analyzer' },
               },
               diagnostics = {
-                disabled = {"inactive-code"}
+                disabled = {"inactive-code"},
               },
             }
           }
         },
       }
+
+      -- monkeypatch rust-tools to correctly detect our custom rust-analyzer
+      require'rust-tools'.utils.is_ra_server = function (client)
+        local name = client.name
+        local target = "rust_analyzer"
+        return string.sub(client.name, 1, string.len(target)) == target
+          or client.name == "rust_analyzer-standalone"
+      end
     end
   }
 
