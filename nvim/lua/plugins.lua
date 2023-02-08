@@ -49,10 +49,11 @@ return require('packer').startup{function()
     'nvim-telescope/telescope.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function()
-      vim.api.nvim_set_keymap('n', '<Leader>t', ':Telescope find_files<cr>', {noremap = true})
-      vim.api.nvim_set_keymap('n', '<Leader>a', ':Telescope live_grep<cr>', {noremap = true})
-      vim.api.nvim_set_keymap('n', '<Leader>b', ':Telescope buffers<cr>', {noremap = true})
-      vim.api.nvim_set_keymap('n', '<Leader>h', ':Telescope help_tags<cr>', {noremap = true})
+      local bufopts = { noremap=true, silent=true }
+      vim.api.nvim_set_keymap('n', '<Leader>t', ':Telescope find_files<cr>', bufopts)
+      vim.api.nvim_set_keymap('n', '<Leader>a', ':Telescope live_grep<cr>', bufopts)
+      vim.api.nvim_set_keymap('n', '<Leader>b', ':Telescope buffers<cr>', bufopts)
+      vim.api.nvim_set_keymap('n', '<Leader>h', ':Telescope help_tags<cr>', bufopts)
       local actions = require "telescope.actions";
       require('telescope').setup{
         defaults = {
@@ -123,9 +124,35 @@ return require('packer').startup{function()
       })
     end
   }
+
+  -- Autocomplete
   use {
     'hrsh7th/nvim-cmp',
+    config = function()
+      -- Set completeopt to have a better completion experience
+      -- :help completeopt
+      -- menuone: popup even when there's only one match
+      -- noinsert: Do not insert text until a selection is made
+      -- noselect: Do not select, force user to select one from the menu
+      vim.o.completeopt = "menuone,noinsert,noselect"
+
+      -- Avoid showing extra messages when using completion
+      vim.o.shortmess = vim.o.shortmess .. "c"
+      local cmp = require'cmp'
+      cmp.setup{
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'path' },
+        },
+      }
+    end
   }
+  use {
+    'hrsh7th/cmp-nvim-lsp',
+    ft = "rust",
+  }
+  use 'hrsh7th/cmp-path'
+
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
@@ -142,11 +169,18 @@ return require('packer').startup{function()
 
       vim.cmd"let g:rust_recommended_style = 0"
 
-      local cache = {}
+      -- monkeypatch rust-tools to correctly detect our custom rust-analyzer
+      require'rust-tools.utils.utils'.is_ra_server = function (client)
+        local name = client.name
+        local target = "rust_analyzer"
+        return string.sub(client.name, 1, string.len(target)) == target
+          or client.name == "rust_analyzer-standalone"
+      end
 
-      -- Configure LSP through rust-tools.nvim plugin.
-      -- rust-tools will configure and enable certain LSP features for us.
-      -- See https://github.com/simrat39/rust-tools.nvim#configuration
+      -- Configure LSP through rust-tools.nvim plugin, with lots of bonus
+      -- content for Hubris compatibility
+      local cache = {}
+      local clients = {}
       require'rust-tools'.setup{
         tools = { -- rust-tools options
           autoSetHints = true,
@@ -163,27 +197,44 @@ return require('packer').startup{function()
             local bufname = vim.api.nvim_buf_get_name(bufnr)
             local dir = new_config.root_dir()
             if string.find(dir, "hubris") then
+
               -- Run `xtask lsp` for the target file, which gives us a JSON
               -- dictionary with bonus configuration.
               local prev_cwd = vim.fn.getcwd()
               vim.cmd("cd " .. dir)
-              local handle = io.popen(dir .. "/target/debug/xtask lsp " .. bufname)
+              local cmd = dir .. "/target/debug/xtask lsp "
+              -- Notify `xtask lsp` of existing clients in the CLI invocation,
+              -- so it can check against them first (which would mean a faster
+              -- attach)
+              for _,v in pairs(clients) do
+                local c = vim.fn.escape(vim.json.encode(v), '"')
+                cmd = cmd .. '-c"' .. c .. '" '
+              end
+              local handle = io.popen(cmd .. bufname)
               handle:flush()
               local result = handle:read("*a")
               handle:close()
               vim.cmd("cd " .. prev_cwd)
 
-              -- If the given file should be handled with special care, then
-              -- we give the rust-analyzer client a custom name (to prevent
+              -- If `xtask` doesn't know about `lsp`, then it will print an
+              -- error to stderr and return nothing on stdout.
+              if result == "" then
+                vim.notify("recompile `xtask` for `lsp` support",
+                           vim.log.levels.WARN)
+              end
+
+              -- If the given file can be compiled as part of a Hubris task,
+              -- then we give the rust-analyzer client a custom name (to prevent
               -- multiple buffers from attaching to it), then cache the JSON in
               -- a local variable for use in `on_attach`
               local json = vim.json.decode(result)
               if json["Ok"] ~= nil then
                 new_config.name = "rust_analyzer_" .. json.Ok.hash
                 cache[bufnr] = json
+                -- Record the existence of this client, to encourage reuse
+                table.insert(clients, {toml = json.Ok.app, task = json.Ok.task})
               else
-                -- Why does this not work?
-                -- vim.notify(vim.inspect(json.Err), vim.log.levels.ERROR)
+                vim.notify(vim.inspect(json.Err), vim.log.levels.ERROR)
               end
             end
           end,
@@ -193,6 +244,10 @@ return require('packer').startup{function()
             if json ~= nil then
               local config = vim.deepcopy(client.config)
               local ra = config.settings["rust-analyzer"]
+              -- Do rust-analyzer builds in a separate folder to avoid blocking
+              -- the main build with a file lock.
+              table.insert(json.Ok.buildOverrideCommand, "--target-dir")
+              table.insert(json.Ok.buildOverrideCommand, "target/rust-analyzer")
               ra.cargo = {
                 extraEnv = json.Ok.extraEnv,
                 target = json.Ok.target,
@@ -205,9 +260,10 @@ return require('packer').startup{function()
               ra.check = {
                 overrideCommand = json.Ok.buildOverrideCommand,
               }
-              ra.files = {
-                excludeDirs = json.Ok.excludeDirs
-              }
+              config.lspinfo = function()
+                return { "Hubris app:      " .. json.Ok.app,
+                         "Hubris task:     " .. json.Ok.task }
+              end
               client.config = config
             end
           end,
@@ -228,14 +284,6 @@ return require('packer').startup{function()
           }
         },
       }
-
-      -- monkeypatch rust-tools to correctly detect our custom rust-analyzer
-      require'rust-tools'.utils.is_ra_server = function (client)
-        local name = client.name
-        local target = "rust_analyzer"
-        return string.sub(client.name, 1, string.len(target)) == target
-          or client.name == "rust_analyzer-standalone"
-      end
     end
   }
 
