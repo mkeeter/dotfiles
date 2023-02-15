@@ -60,6 +60,7 @@ return {
   -- Solarized
   {
     'ishan9299/nvim-solarized-lua',
+    priority = 1000, -- load this first!
     config = function()
       vim.opt.termguicolors = true
       vim.o.bg = 'dark'
