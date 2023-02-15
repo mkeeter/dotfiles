@@ -1,34 +1,21 @@
-return require('packer').startup{function()
-  -- Packer can manage itself
-  use {
-    'wbthomason/packer.nvim',
-    config = function()
-      -- Recompile whenever plugins.lua changes
-      vim.cmd([[
-        augroup packer_user_config
-          autocmd!
-          autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-        augroup end
-      ]])
-    end
-  }
-
+return {
   -- Add support for Fish and Rhai scripting
-  use 'dag/vim-fish'
-  use 'rhaiscript/vim-rhai'
+  'dag/vim-fish',
+  'rhaiscript/vim-rhai',
 
-  use {
+  {
     'ggandor/leap.nvim',
     config = function()
-      vim.keymap.set('n', '<Space>', '<Plug>(leap-forward)', {silent = true})
-      vim.keymap.set('n', '<Leader><Space>', '<Plug>(leap-backward)', {silent = true})
+      local bufopts = { silent=true }
+      vim.keymap.set('n', '<Space>', '<Plug>(leap-forward)', bufopts)
+      vim.keymap.set('n', '<Leader><Space>', '<Plug>(leap-backward)', bufopts)
     end
-  }
+  },
 
   -- nvim-tree
-  use {
+  {
     'kyazdani42/nvim-tree.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
+    dependencies = 'kyazdani42/nvim-web-devicons',
     config = function()
       vim.api.nvim_set_keymap('n', '<Leader>d', ':NvimTreeOpen<cr>', {noremap = true})
       require'nvim-tree'.setup{
@@ -39,15 +26,15 @@ return require('packer').startup{function()
         update_cwd = true,
       }
     end
-  }
+  },
 
   -- vim-tmux-navigator
-  use 'christoomey/vim-tmux-navigator'
+  'christoomey/vim-tmux-navigator',
 
   -- Universal search
-  use {
+  {
     'nvim-telescope/telescope.nvim',
-    requires = 'nvim-lua/plenary.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
     config = function()
       local bufopts = { noremap=true, silent=true }
       vim.api.nvim_set_keymap('n', '<Leader>t', ':Telescope find_files<cr>', bufopts)
@@ -68,20 +55,20 @@ return require('packer').startup{function()
         }
       }
     end
-  }
+  },
 
   -- Solarized
-  use {
+  {
     'ishan9299/nvim-solarized-lua',
     config = function()
       vim.opt.termguicolors = true
       vim.o.bg = 'dark'
       vim.cmd([[colorscheme solarized]])
     end
-  }
+  },
 
   -- lualine
-  use {
+  {
     'nvim-lualine/lualine.nvim',
     config = function()
       -- Hide mode, since it's visible in lualine
@@ -100,11 +87,11 @@ return require('packer').startup{function()
           }
       }
     end
-  }
+  },
 
   -- Rust stuff
   -- https://sharksforarms.dev/posts/neovim-rust/
-  use {
+  {
     'neovim/nvim-lspconfig',
     config = function()
       local bufopts = { noremap=true, silent=true }
@@ -123,11 +110,12 @@ return require('packer').startup{function()
         float = { border = "single" },
       })
     end
-  }
+  },
 
   -- Autocomplete
-  use {
+  {
     'hrsh7th/nvim-cmp',
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-path' },
     config = function()
       -- Set completeopt to have a better completion experience
       -- :help completeopt
@@ -146,18 +134,13 @@ return require('packer').startup{function()
         },
       }
     end
-  }
-  use {
-    'hrsh7th/cmp-nvim-lsp',
-    ft = "rust",
-  }
-  use 'hrsh7th/cmp-path'
+  },
 
-  use {
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
-  use {
+    build = ':TSUpdate'
+  },
+  {
     'simrat39/rust-tools.nvim',
     ft = "rust",
     config = function()
@@ -285,9 +268,9 @@ return require('packer').startup{function()
         },
       }
     end
-  }
+  },
 
-  use {
+  {
     'tami5/lspsaga.nvim',
     ft = "rust",
     config = function()
@@ -297,10 +280,10 @@ return require('packer').startup{function()
         }
       }
     end
-  }
+  },
 
   -- Personal wiki
-  use {
+  {
     'vimwiki/vimwiki',
     config = function()
       vim.api.nvim_set_var('vimwiki_list', {
@@ -318,6 +301,5 @@ return require('packer').startup{function()
         map <leader>w<leader>f :VimwikiDiaryNextDay<CR>
       ]]
     end
-  }
-  end,
+  },
 }
