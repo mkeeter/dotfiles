@@ -1,3 +1,2 @@
 vim/bundle/*
-nvim/plugin
-nvim/lua/packer_compiled.lua
+nvim/lazy_lock.json
