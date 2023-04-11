@@ -189,7 +189,6 @@ return {
             local bufname = vim.api.nvim_buf_get_name(bufnr)
             local dir = new_config.root_dir()
             if string.find(dir, "hubris") then
-
               -- Run `xtask lsp` for the target file, which gives us a JSON
               -- dictionary with bonus configuration.
               local prev_cwd = vim.fn.getcwd()
@@ -269,6 +268,7 @@ return {
                 command = "clippy",
                 extraArgs = { '--target-dir', 'target/rust-analyzer' },
               },
+              procMacro = { enable = true },
               diagnostics = {
                 disabled = {"inactive-code"},
               },
@@ -288,6 +288,14 @@ return {
           enable = false
         }
       }
+    end
+  },
+
+  -- Progress spinner for Rust LSP
+  {
+    'j-hui/fidget.nvim',
+    config = function()
+      require'fidget'.setup{}
     end
   },
 
