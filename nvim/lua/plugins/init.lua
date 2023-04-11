@@ -133,6 +133,14 @@ return {
           { name = 'nvim_lsp' },
           { name = 'path' },
         },
+        mapping = {
+          ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+          ["<Tab>"] = cmp.mapping.select_next_item(),
+          ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          }),
+        }
       }
     end
   },
