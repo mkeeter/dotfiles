@@ -161,6 +161,9 @@ return {
 
       vim.cmd"let g:rust_recommended_style = 0"
 
+      -- Disable LSP highlighting in comments, where it does a bad job
+      vim.api.nvim_set_hl(0, '@lsp.type.comment.rust', {})
+
       -- monkeypatch rust-tools to correctly detect our custom rust-analyzer
       require'rust-tools.utils.utils'.is_ra_server = function (client)
         local name = client.name
