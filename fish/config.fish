@@ -53,9 +53,9 @@ case mjk
             if string match -q --regex -- "(dist|flash|test)" $argv[1]
                 for var in $argv[2..]
                     if string match -q --regex -- "(app|test)\/.*\.toml" $var
-                        set name (dasel -f $var -r toml name 2>/dev/null;
-                               or dasel -f $var -r toml patches.name)
-                        export HUMILITY_ARCHIVE=(pwd)/target/$name/dist/default/build-$name.zip
+                        set name (dasel -f $var -r toml -w - name 2>/dev/null;
+                               or dasel -f $var -r toml -w - patches.name)
+                        export HUMILITY_ARCHIVE=(pwd)/target/$name/dist/default/build-$name-image-default.zip
                     end
                 end
             end

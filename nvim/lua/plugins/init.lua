@@ -297,6 +297,7 @@ return {
   -- Progress spinner for Rust LSP
   {
     'j-hui/fidget.nvim',
+    tag = 'legacy',
     config = function()
       require'fidget'.setup{}
     end
