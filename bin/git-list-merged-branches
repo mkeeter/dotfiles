@@ -1,6 +1,7 @@
 #!/bin/bash
-for s in $(git branch --format='%(refname:short)')
+for s in $(git branch --format='%(refname:short)' --sort=-committerdate)
 do
     echo $s
     hub pr list -h $s -s closed
+    hub pr list -h mkeeter:$s -s closed
 done
