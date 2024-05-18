@@ -42,6 +42,9 @@ ln -s $(pwd)/powerline ~/.config/powerline
 # htop
 ln -s $(pwd)/htop ~/.config/htop
 
+# jujutsu
+ln -s $(pwd)/jj/jjconfig.toml ~/.jjconfig.toml
+
 # Tweak defaults
 defaults write com.googlecode.oterm2 HotkeyTermAnimationDuration -float 0.05
 
