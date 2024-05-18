@@ -72,3 +72,6 @@ end
 # Set SHELL=fish (so tmux uses fish instead of zsh)
 set --export SHELL (which fish)
 test -e ~/.iterm2_shell_integration.fish ; and source ~/.iterm2_shell_integration.fish ; or true
+
+# Color scheme for `bat`
+set --export BAT_THEME ansi
