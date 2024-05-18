@@ -13,6 +13,8 @@ fish_add_path /usr/local/bin
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.dotfiles/bin
 fish_add_path ~/go/bin
+fish_add_path /opt/homebrew/opt/ruby/bin
+fish_add_path ~/node_modules/.bin
 
 # Reset the greeting
 set fish_greeting

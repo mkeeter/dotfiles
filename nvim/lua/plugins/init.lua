@@ -191,7 +191,7 @@ return {
             local bufnr = vim.api.nvim_get_current_buf()
             local bufname = vim.api.nvim_buf_get_name(bufnr)
             local dir = new_config.root_dir()
-            if string.find(dir, "hubris") then
+            if string.find(dir, "hubris") and not string.find(dir, "xtask") then
               -- Run `xtask lsp` for the target file, which gives us a JSON
               -- dictionary with bonus configuration.
               local prev_cwd = vim.fn.getcwd()
