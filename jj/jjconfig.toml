@@ -1,0 +1,26 @@
+[user]
+name = "Matt Keeter"
+email = "matt.j.keeter@gmail.com"
+
+[ui]
+default-command = "sl"
+editor = "nvim"
+
+[aliases]
+sl = ["log", "-r", "open()"]
+slog = ["log", "-r", "open()", "-T", "builtin_log_detailed"]
+sq = ["squash"]
+dup = ["duplicate"]
+
+[revset-aliases]
+# See https://github.com/martinvonz/jj/blob/main/docs/revsets.md
+'uninterested()' = '::remote_branches() | tags()'
+'mine()' = '::trunk() | author("matt@") | author("matt.j.keeter@")'
+'interested()' = 'mine() ~ (uninterested() ~ mine())'
+'open()' = '''
+    ::@ | author("matt@") | author("matt.j.keeter@")
+      | (immutable_heads() ~ tags())
+'''
+
+[templates]
+log = 'builtin_log_comfortable'
