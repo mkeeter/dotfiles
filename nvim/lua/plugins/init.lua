@@ -96,6 +96,8 @@ return {
     'neovim/nvim-lspconfig',
     config = function()
       local bufopts = { noremap=true, silent=true }
+      vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+      vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
       vim.diagnostic.config({
         virtual_text = false,
         signs = true,
