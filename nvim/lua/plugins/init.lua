@@ -97,12 +97,67 @@ return {
       local bufopts = { noremap=true, silent=true }
       vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
       vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
       vim.diagnostic.config({
         virtual_text = false,
         signs = true,
         underline = false,
         float = { border = "single" },
       })
+
+      require'lspconfig'.rust_analyzer.setup{
+        settings = {
+          ['rust-analyzer'] = {
+            -- enable clippy on save
+            checkOnSave = {
+              command = "clippy",
+              extraArgs = { '--target-dir', 'target/rust-analyzer' },
+            },
+            procMacro = { enable = true },
+            diagnostics = {
+              disabled = {"inactive-code"},
+            },
+          }
+        }
+      }
+
+      -- Run rustfmt on change
+      vim.api.nvim_create_autocmd({"BufWritePre"}, {
+        pattern = {"*.rs"},
+        callback = function() vim.lsp.buf.format({timeout_ms = 200}) end
+      })
+
+      -- Customize signs
+      local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
+
+      vim.diagnostic.config({
+          -- Insert floaty things to the right of problems.
+          virtual_text = true,
+          -- Display icony things in the sign column.
+          signs = true,
+          -- Change from neovim's default sort mode for signs, which tends
+          -- to hide errors, to the one that should obviously be the
+          -- default, which shows most severe in preference to least.
+          severity_sort = true,
+          -- Underline problems.
+          underline = true,
+      })
+
+      -- XXX Hack the hover window to show the markdown code fences
+      local prev = vim.lsp.util.open_floating_preview
+      vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
+        local prev_win = vim.api.nvim_get_current_win()
+        prev(contents, syntax, opts)
+        local bufnr, winnr = prev(contents, syntax, opts)
+        vim.wo[winnr].conceallevel = 0
+        vim.api.nvim_set_current_win(prev_win)
+        return bufnr, winnr
+      end
     end
   },
 
@@ -140,150 +195,18 @@ return {
 
   {
     'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate'
-  },
-  {
-    'simrat39/rust-tools.nvim',
-    ft = "rust",
+    build = ':TSUpdate',
     config = function()
-      vim.o.signcolumn = 'yes'
-      vim.api.nvim_create_autocmd({"BufWritePre"}, {
-        pattern = {"*.rs"},
-        callback = function() vim.lsp.buf.format({timeout_ms = 200}) end
+      require'nvim-treesitter.configs'.setup({
+        ensure_installed = {
+            "rust",
+            "c",
+            "markdown_inline", -- for `K` / `vim.lsp.buffer.hover()`
+        },
+        highlight = {
+            enable = true,
+        },
       })
-
-      vim.cmd"let g:rust_recommended_style = 0"
-
-      -- Disable LSP highlighting in comments, where it does a bad job
-      vim.api.nvim_set_hl(0, '@lsp.type.comment.rust', {})
-
-      -- monkeypatch rust-tools to correctly detect our custom rust-analyzer
-      require'rust-tools.utils.utils'.is_ra_server = function (client)
-        local name = client.name
-        local target = "rust_analyzer"
-        return string.sub(client.name, 1, string.len(target)) == target
-          or client.name == "rust_analyzer-standalone"
-      end
-
-      -- Configure LSP through rust-tools.nvim plugin, with lots of bonus
-      -- content for Hubris compatibility
-      local cache = {}
-      local clients = {}
-      require'rust-tools'.setup{
-        tools = { -- rust-tools options
-          autoSetHints = true,
-          inlay_hints = {
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "",
-          },
-        },
-
-        server = {
-          on_new_config = function(new_config, new_root_dir)
-            local bufnr = vim.api.nvim_get_current_buf()
-            local bufname = vim.api.nvim_buf_get_name(bufnr)
-            local dir = new_config.root_dir()
-            if string.find(dir, "hubris") and not string.find(dir, "xtask") then
-              -- Run `xtask lsp` for the target file, which gives us a JSON
-              -- dictionary with bonus configuration.
-              local prev_cwd = vim.fn.getcwd()
-              vim.cmd("cd " .. dir)
-              local cmd = dir .. "/target/debug/xtask lsp "
-              -- Notify `xtask lsp` of existing clients in the CLI invocation,
-              -- so it can check against them first (which would mean a faster
-              -- attach)
-              for _,v in pairs(clients) do
-                local c = vim.fn.escape(vim.json.encode(v), '"')
-                cmd = cmd .. '-c"' .. c .. '" '
-              end
-              local handle = io.popen(cmd .. bufname)
-              handle:flush()
-              local result = handle:read("*a")
-              handle:close()
-              vim.cmd("cd " .. prev_cwd)
-
-              -- If `xtask` doesn't know about `lsp`, then it will print an
-              -- error to stderr and return nothing on stdout.
-              if result == "" then
-                vim.notify("recompile `xtask` for `lsp` support",
-                           vim.log.levels.WARN)
-              end
-
-              -- If the given file can be compiled as part of a Hubris task,
-              -- then we give the rust-analyzer client a custom name (to prevent
-              -- multiple buffers from attaching to it), then cache the JSON in
-              -- a local variable for use in `on_attach`
-              local json = vim.json.decode(result)
-              if json["Ok"] ~= nil then
-                new_config.name = "rust_analyzer_" .. json.Ok.hash
-                cache[bufnr] = json
-                -- Record the existence of this client, to encourage reuse
-                table.insert(clients, {toml = json.Ok.app, task = json.Ok.task})
-              else
-                vim.notify(vim.inspect(json.Err), vim.log.levels.ERROR)
-              end
-            end
-          end,
-
-          on_attach = function(client, bufnr)
-            local json = cache[bufnr]
-            if json ~= nil then
-              local config = vim.deepcopy(client.config)
-              local ra = config.settings["rust-analyzer"]
-              -- Do rust-analyzer builds in a separate folder to avoid blocking
-              -- the main build with a file lock.
-              table.insert(json.Ok.buildOverrideCommand, "--target-dir")
-              table.insert(json.Ok.buildOverrideCommand, "target/rust-analyzer")
-              ra.cargo = {
-                extraEnv = json.Ok.extraEnv,
-                target = json.Ok.target,
-                noDefaultFeatures = true,
-                features = json.Ok.features,
-                buildScripts = {
-                  overrideCommand = json.Ok.buildOverrideCommand,
-                },
-              }
-              ra.check = {
-                overrideCommand = json.Ok.buildOverrideCommand,
-              }
-              config.lspinfo = function()
-                return { "Hubris app:      " .. json.Ok.app,
-                         "Hubris task:     " .. json.Ok.task }
-              end
-              client.config = config
-            end
-          end,
-
-          settings = {
-            -- to enable rust-analyzer settings visit:
-            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-            ["rust-analyzer"] = {
-              -- enable clippy on save
-              checkOnSave = {
-                command = "clippy",
-                extraArgs = { '--target-dir', 'target/rust-analyzer' },
-              },
-              procMacro = { enable = true },
-              diagnostics = {
-                disabled = {"inactive-code"},
-              },
-            }
-          }
-        },
-      }
-    end
-  },
-
-  {
-    'tami5/lspsaga.nvim',
-    ft = "rust",
-    config = function()
-      require'lspsaga'.init_lsp_saga{
-        code_action_prompt = {
-          enable = false
-        }
-      }
     end
   },
 
