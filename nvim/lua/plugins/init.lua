@@ -8,7 +8,7 @@ return {
     config = function()
       local bufopts = { silent=true }
       vim.keymap.set('n', '<Space>', '<Plug>(leap-forward)', bufopts)
-      vim.keymap.set('n', '<Leader><Space>', '<Plug>(leap-backward)', bufopts)
+      vim.keymap.set('n', '<C-Space>', '<Plug>(leap-backward)', bufopts)
     end
   },
 
@@ -91,7 +91,6 @@ return {
   },
 
   -- Rust stuff
-  -- https://sharksforarms.dev/posts/neovim-rust/
   {
     'neovim/nvim-lspconfig',
     config = function()
@@ -300,11 +299,18 @@ return {
   -- Personal wiki
   {
     'vimwiki/vimwiki',
+    init = function()
+      -- Tweak conceallevel for consistent line spacing
+      vim.api.nvim_set_var('vimwiki_conceallevel', 1);
+    end,
     config = function()
       vim.api.nvim_set_var('vimwiki_list', {
-          {path = '~/wiki',
-           syntax = 'markdown',
-           ext = '.md' }})
+        {
+          path = '~/wiki',
+          syntax = 'markdown',
+          ext = '.md',
+        }
+      })
       vim.cmd[[
         hi link VimwikiHeader1 pandocBlockQuoteLeader4
         hi link VimwikiHeader2 pandocBlockQuoteLeader3
