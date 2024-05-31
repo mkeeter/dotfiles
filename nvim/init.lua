@@ -37,8 +37,24 @@ vim.g.mapleader = ","
 -- Set current directory
 vim.cmd[[cd %:p:h]]
 
--- Bind 'q' to close a quickfix window
-vim.cmd[[autocmd BufWinEnter quickfix nnoremap <buffer> q :cclose<CR>]]
+-- Bind 'q' to close a quickfix or loclist window
+vim.api.nvim_create_autocmd(
+  'BufWinEnter',
+  {
+    pattern = 'quickfix',
+    callback = function()
+      local t = vim.fn.win_gettype()
+      local cmd = ""
+      if t == "loclist" then
+        cmd = ":lclose<CR>"
+      elseif t == "quickfix" then
+        cmd = ":cclose<CR>"
+      end
+      vim.api.nvim_buf_set_keymap(0, 'n', 'q', cmd, { noremap = true })
+    end
+  }
+);
+
 
 -- Allow for persistent undo
 vim.o.undofile = true
