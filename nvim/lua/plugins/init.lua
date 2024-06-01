@@ -122,6 +122,9 @@ return {
         }
       }
 
+      -- Disable LSP highlighting in comments, where it does a bad job
+      vim.api.nvim_set_hl(0, '@lsp.type.comment.rust', {})
+
       -- Run rustfmt on change
       vim.api.nvim_create_autocmd({"BufWritePre"}, {
         pattern = {"*.rs"},
@@ -202,9 +205,6 @@ return {
             "rust",
             "c",
             "markdown_inline", -- for `K` / `vim.lsp.buffer.hover()`
-        },
-        highlight = {
-            enable = true,
         },
       })
     end
