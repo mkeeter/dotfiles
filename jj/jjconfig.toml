@@ -5,6 +5,7 @@ email = "matt.j.keeter@gmail.com"
 [ui]
 default-command = "sl"
 editor = "nvim"
+diff.format = "git"
 
 [aliases]
 sl = ["log", "-r", "open()"]
