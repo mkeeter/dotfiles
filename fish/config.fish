@@ -39,10 +39,13 @@ switch (whoami)
 case mjk
     # Oxide account
     fish_add_path ~/oxide/humility/target/release
+    fish_add_path ~/oxide/management-gateway-service/target/release
     fish_add_path /opt/homebrew/opt/gnu-sed/libexec/gnubin
     fish_add_path ~/oxide/lengths-of-wire/hiring-cli/target/release
     fish_add_path /Applications/ARM/bin
-    fish_add_path ~/Library/Python/3.9/bin
+
+    alias py="/Users/mjk/Library/Python/3.11/bin/ipython"
+
     function h
         humility $argv
     end
@@ -75,3 +78,6 @@ test -e ~/.iterm2_shell_integration.fish ; and source ~/.iterm2_shell_integratio
 
 # Color scheme for `bat`
 set --export BAT_THEME ansi
+
+# jujutsu tab completion
+jj util completion fish | source

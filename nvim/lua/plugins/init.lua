@@ -110,10 +110,7 @@ return {
         settings = {
           ['rust-analyzer'] = {
             -- enable clippy on save
-            checkOnSave = {
-              command = "clippy",
-              extraArgs = { '--target-dir', 'target/rust-analyzer' },
-            },
+            checkOnSave = true,
             procMacro = { enable = true },
             diagnostics = {
               disabled = {"inactive-code"},
@@ -131,18 +128,18 @@ return {
         callback = function() vim.lsp.buf.format({timeout_ms = 200}) end
       })
 
-      -- Customize signs
-      local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
-
       vim.diagnostic.config({
           -- Insert floaty things to the right of problems.
           virtual_text = true,
           -- Display icony things in the sign column.
-          signs = true,
+          signs = {
+            text = {
+                [vim.diagnostic.severity.ERROR] = "󰅚 ",
+                [vim.diagnostic.severity.WARN] = "󰀪 ",
+                [vim.diagnostic.severity.INFO] = "󰌶",
+                [vim.diagnostic.severity.HINT] = " ",
+            },
+          },
           -- Change from neovim's default sort mode for signs, which tends
           -- to hide errors, to the one that should obviously be the
           -- default, which shows most severe in preference to least.
