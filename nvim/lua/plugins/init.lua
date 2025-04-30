@@ -111,6 +111,9 @@ return {
           ['rust-analyzer'] = {
             -- enable clippy on save
             checkOnSave = true,
+            check = {
+              command = "clippy",
+            },
             procMacro = { enable = true },
             diagnostics = {
               disabled = {"inactive-code"},
@@ -147,17 +150,6 @@ return {
           -- Underline problems.
           underline = true,
       })
-
-      -- XXX Hack the hover window to show the markdown code fences
-      local prev = vim.lsp.util.open_floating_preview
-      vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
-        local prev_win = vim.api.nvim_get_current_win()
-        prev(contents, syntax, opts)
-        local bufnr, winnr = prev(contents, syntax, opts)
-        vim.wo[winnr].conceallevel = 0
-        vim.api.nvim_set_current_win(prev_win)
-        return bufnr, winnr
-      end
     end
   },
 
