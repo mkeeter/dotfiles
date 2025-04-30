@@ -31,7 +31,8 @@ switch (uname)
         alias w="nvim ~/wiki/index.md"
 
         # Quick Python alias
-        alias py="ipython"
+        # see https://github.com/matplotlib/matplotlib/issues/28324
+        alias py="ipython --pylab qt"
 end
 
 # Account-specific options
