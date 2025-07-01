@@ -24,12 +24,9 @@ return {
     lazy = false, -- neo-tree will lazily load itself
     config = function()
       require("neo-tree").setup({
-        close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
-        popup_border_style = "NC", -- or "" to use 'winborder' on Neovim v0.11+
-        enable_git_status = true,
-        enable_diagnostics = true,
-        open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
-        open_files_using_relative_paths = false,
+        close_if_last_window = true,
+        enable_git_status = false,
+        enable_modified_markers = false,
       });
       local bufopts = { noremap=true, silent=true }
       vim.api.nvim_set_keymap('n', '<Leader>d', ':Neotree<cr>', bufopts);
