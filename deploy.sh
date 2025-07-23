@@ -13,8 +13,6 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # Neovim
 ln -s (pwd)/nvim ~/.config/nvim
-git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-# You'll have to do some manual tweaking to bootstrap the 'impatient' plugin
 
 # GHCI
 ln -s $(pwd)/ghci ~/.ghci
