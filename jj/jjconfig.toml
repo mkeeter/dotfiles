@@ -15,12 +15,13 @@ dup = ["duplicate"]
 
 [revset-aliases]
 # See https://github.com/martinvonz/jj/blob/main/docs/revsets.md
-'uninterested()' = '::remote_branches() | tags()'
-'mine()' = '::trunk() | author("matt@") | author("matt.j.keeter@")'
+'uninterested()' = '::remote_bookmarks() | tags()'
+'mine()' = '::trunk() | author("matt@") | author("matt.j.keeter@") | bookmarks()'
 'interested()' = 'mine() ~ (uninterested() ~ mine())'
 'open()' = '''
     ::@ | author("matt@") | author("matt.j.keeter@")
       | (immutable_heads() ~ tags())
+      | bookmarks()
 '''
 
 [templates]
