@@ -111,21 +111,18 @@ return {
         float = { border = "single" },
       })
 
-      vim.lsp.config('rust_analyzer', {
-        settings = {
-          ['rust-analyzer'] = {
-            -- enable clippy on save
-            checkOnSave = true,
-            check = {
-              command = "clippy",
-            },
-            procMacro = { enable = true },
-            diagnostics = {
-              disabled = {"inactive-code"},
-            },
-          }
-        }
-      })
+      vim.lsp.config.rust_analyzer = {
+        -- enable clippy on save
+        checkOnSave = true,
+        check = {
+          command = "clippy",
+        },
+        procMacro = { enable = true },
+        diagnostics = {
+          disabled = {"inactive-code"},
+        },
+      }
+      vim.lsp.enable('rust_analyzer')
 
       -- Disable LSP highlighting in comments, where it does a bad job
       vim.api.nvim_set_hl(0, '@lsp.type.comment.rust', {})
