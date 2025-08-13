@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "Usage: jj track [REMOTE]"
+    echo ""
+    echo "Track the first bookmark between trunk() and @ on the given remote."
+    echo "Defaults to 'origin' if no remote is specified."
+    exit 0
+fi
+
+remote="${1:-origin}"
+bookmark=$(jj bookmark list -r 'trunk()..@' -T 'name++"\n"' | head -1)
+jj bookmark track "$bookmark" --remote="$remote"

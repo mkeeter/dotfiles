@@ -13,6 +13,7 @@ sl = ["log", "-r", "open()"]
 slog = ["log", "-r", "open()", "-T", "builtin_log_detailed"]
 sq = ["squash"]
 dup = ["duplicate"]
+track = ["util", "exec", "--", "jj-track"]
 
 [revset-aliases]
 # See https://github.com/martinvonz/jj/blob/main/docs/revsets.md
