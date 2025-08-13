@@ -5,7 +5,7 @@ email = "matt.j.keeter@gmail.com"
 [ui]
 default-command = "sl"
 editor = "nvim"
-diff.diff-formatter = "git"
+diff-formatter = ":git"
 diff-editor = ":builtin"
 
 [aliases]
