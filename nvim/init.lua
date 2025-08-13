@@ -31,6 +31,9 @@ vim.o.listchars="tab:»·,trail:·"
 vim.o.wildmode = 'longest,list,full'
 vim.o.wildmenu = true
 
+-- Enable project-specific `.nvim.lua` files
+vim.o.exrc = true
+
 -- Use , as the leader key (must happen before plugin init)
 vim.g.mapleader = ","
 
