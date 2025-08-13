@@ -54,18 +54,16 @@ case mjk
     # if we're running a build or flash operation
     function x
         if string match -q -- "*hubris*" (pwd)
-            cargo xtask $argv
-            set -l out $status
+            cargo xtask $argv; or return 1
             if string match -q --regex -- "(dist|flash|test)" $argv[1]
                 for var in $argv[2..]
                     if string match -q --regex -- "(app|test)\/.*\.toml" $var
-                        set name (dasel -f $var -r toml -w - name 2>/dev/null;
-                               or dasel -f $var -r toml -w - patches.name)
-                        export HUMILITY_ARCHIVE=(pwd)/target/$name/dist/default/build-$name-image-default.zip
+                        set path (cargo xtask print --archive $var; or return 1)
+                        export HUMILITY_ARCHIVE=(pwd)/$path
                     end
                 end
             end
-            return $out
+            return 0
         else
             echo "Error: `x` is only allowed in a `hubris` directory" 1>&2
             return 1
