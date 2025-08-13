@@ -123,6 +123,9 @@ return {
             diagnostics = {
               disabled = {"inactive-code"},
             },
+            cargo = {
+              targetDir = "target/rust-analyzer",
+            },
           }
         }
       })
