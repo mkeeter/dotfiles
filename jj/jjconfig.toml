@@ -3,7 +3,7 @@ name = "Matt Keeter"
 email = "matt.j.keeter@gmail.com"
 
 [ui]
-default-command = "sl"
+default-command = "log"
 editor = "nvim"
 diff-formatter = ":git"
 diff-editor = ":builtin"
