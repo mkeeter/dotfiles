@@ -1,0 +1,5 @@
+font-family = "InconsolataGo Nerd Font"
+theme = "Builtin Solarized Dark"
+font-size = 16
+keybind = global:option+space=toggle_quick_terminal
+quick-terminal-position = left

@@ -43,9 +43,8 @@ case mjk
     fish_add_path ~/oxide/management-gateway-service/target/release
     fish_add_path /opt/homebrew/opt/gnu-sed/libexec/gnubin
     fish_add_path ~/oxide/lengths-of-wire/hiring-cli/target/release
+    fish_add_path ~/oxide/permission-slip/target/release
     fish_add_path /Applications/ARM/bin
-
-    alias py="/Users/mjk/Library/Python/3.11/bin/ipython"
 
     function h
         humility $argv
