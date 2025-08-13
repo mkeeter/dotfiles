@@ -10,5 +10,5 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 fi
 
 remote="${1:-origin}"
-bookmark=$(jj bookmark list -r 'trunk()..@' -T 'name++"\n"' | head -1)
+bookmark=$(jj bookmark list -r 'trunk()..@' -T 'name++"\n"' --sort=committer-date- | head -1)
 jj bookmark track "$bookmark" --remote="$remote"
