@@ -3,3 +3,7 @@ theme = "Builtin Solarized Dark"
 font-size = 16
 keybind = global:option+space=toggle_quick_terminal
 quick-terminal-position = left
+quick-terminal-animation-duration = 0.1
+quick-terminal-size = 35%, 100%
+quick-terminal-screen = macos-menu-bar
+macos-non-native-fullscreen = visible-menu
