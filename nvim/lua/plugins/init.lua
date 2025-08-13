@@ -4,7 +4,7 @@ return {
   'rhaiscript/vim-rhai',
 
   {
-    'ggandor/leap.nvim',
+    url = 'https://codeberg.org/andyg/leap.nvim.git',
     config = function()
       local bufopts = { silent=true }
       vim.keymap.set('n', '<Space>', '<Plug>(leap-forward)', bufopts)
@@ -111,7 +111,7 @@ return {
         float = { border = "single" },
       })
 
-      require'lspconfig'.rust_analyzer.setup{
+      vim.lsp.config('rust_analyzer', {
         settings = {
           ['rust-analyzer'] = {
             -- enable clippy on save
@@ -125,7 +125,7 @@ return {
             },
           }
         }
-      }
+      })
 
       -- Disable LSP highlighting in comments, where it does a bad job
       vim.api.nvim_set_hl(0, '@lsp.type.comment.rust', {})

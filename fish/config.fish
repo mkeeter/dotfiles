@@ -15,6 +15,7 @@ fish_add_path ~/.dotfiles/bin
 fish_add_path ~/go/bin
 fish_add_path /opt/homebrew/opt/ruby/bin
 fish_add_path ~/node_modules/.bin
+fish_add_path ~/.local/bin
 
 # Reset the greeting
 set fish_greeting
