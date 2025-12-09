@@ -200,6 +200,7 @@ return {
             "rust",
             "c",
             "markdown_inline", -- for `K` / `vim.lsp.buffer.hover()`
+            "just",
             "wgsl",
         },
       })

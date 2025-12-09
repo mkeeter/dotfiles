@@ -12,3 +12,4 @@ shell-integration-features = ssh-env
 working-directory = home
 window-inherit-working-directory = false
 confirm-close-surface = false
+macos-option-as-alt = false
