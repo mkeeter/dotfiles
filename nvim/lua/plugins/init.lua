@@ -111,17 +111,21 @@ return {
         float = { border = "single" },
       })
 
-      vim.lsp.config.rust_analyzer = {
-        -- enable clippy on save
-        checkOnSave = true,
-        check = {
-          command = "clippy",
-        },
-        procMacro = { enable = true },
-        diagnostics = {
-          disabled = {"inactive-code"},
-        },
-      }
+      vim.lsp.config('rust_analyzer', {
+        settings = {
+          ['rust-analyzer'] = {
+            -- enable clippy on save
+            checkOnSave = true,
+            check = {
+              command = "clippy",
+            },
+            procMacro = { enable = true },
+            diagnostics = {
+              disabled = {"inactive-code"},
+            },
+          }
+        }
+      })
       vim.lsp.enable('rust_analyzer')
 
       -- Disable LSP highlighting in comments, where it does a bad job
@@ -152,6 +156,49 @@ return {
           -- Underline problems.
           underline = true,
       })
+
+      -- Helper function to switch to WASM mode
+      local function set_rust_wasm_mode(enable)
+        local clients = vim.lsp.get_active_clients({ name = 'rust_analyzer' })
+        if enable then
+          flags = {
+            target = "wasm32-unknown-unknown",
+            extraEnv = {
+              RUSTFLAGS = '-C target-feature=+atomics,+bulk-memory --cfg getrandom_backend="wasm_js"',
+              RUSTUP_TOOLCHAIN = "nightly-2025-06-30",
+            },
+            extraArgs = { "-Z", "build-std=std,panic_abort" },
+          }
+        else
+          flags = {
+            target = nil,
+            extraEnv = nil,
+            extraArgs = nil,
+          }
+        end
+
+        for _, client in ipairs(clients) do
+          client.config.settings['rust-analyzer'] = vim.tbl_deep_extend('force',
+            client.config.settings['rust-analyzer'] or {},
+            {
+              cargo = flags,
+              check = flags,
+            }
+          )
+          client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+        end
+
+        print(enable and 'Rust WASM mode enabled' or 'Rust WASM mode disabled')
+      end
+
+      -- Create commands
+      vim.api.nvim_create_user_command('RustWasmMode', function()
+        set_rust_wasm_mode(true)
+      end, {})
+
+      vim.api.nvim_create_user_command('RustNormalMode', function()
+        set_rust_wasm_mode(false)
+      end, {})
     end
   },
 
