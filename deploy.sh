@@ -23,6 +23,7 @@ ln -s ~/.tmux/tmux.conf ~/.tmux.conf
 
 # Fish shell
 ln -s $(pwd)/fish/config.fish ~/.config/fish/config.fish
+ln -s $(pwd)/fish/conf.d ~/.config/fish/conf.d
 ln -s $(pwd)/fish/functions ~/.config/fish/functions
 ln -s $(pwd)/fish/completions ~/.config/fish/completions
 
