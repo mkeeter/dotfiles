@@ -1,6 +1,5 @@
 function z.pwd --on-variable PWD
   status --is-command-substitution
     and return
-
-  z --add $PWD
+  zipzap add $PWD
 end
