@@ -304,17 +304,28 @@ cmp.setup{
 -- nvim-treesitter
 vim.pack.add{ 'https://github.com/nvim-treesitter/nvim-treesitter' }
 require'nvim-treesitter.install'.prefer_git = true
-require'nvim-treesitter'.install{
+local ts_languages = {
   "rust",
   "c",
   "markdown_inline", -- for `K` / `vim.lsp.buffer.hover()`
   "just",
+  "lua",
   "wgsl",
 }
+require'nvim-treesitter'.install(ts_languages)
 vim.api.nvim_create_autocmd(
   'PackChanged',
-  { callback = function() require'nvim-treesitter'.update() end }
+  { callback = function()
+      if name == 'nvim-treesitter' and kind == 'update' then
+        require('nvim-treesitter').update()
+      end
+    end
+  }
 )
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = ts_languages,
+  callback = function() vim.treesitter.start() end,
+})
 
 --------------------------------------------------------------------------------
 -- fidget.nvim
