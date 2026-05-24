@@ -26,7 +26,7 @@ vim.wo.wrap = false
 
 -- Show trailing whitespace
 vim.o.list = true
-vim.o.listchars="tab:»·,trail:·"
+vim.opt.listchars = { tab = "»·", trail = "·" }
 
 vim.o.wildmode = 'longest,list,full'
 vim.o.wildmenu = true
@@ -36,9 +36,6 @@ vim.o.exrc = true
 
 -- Use , as the leader key (must happen before plugin init)
 vim.g.mapleader = ","
-
--- Set current directory
-vim.cmd[[cd %:p:h]]
 
 -- Bind 'q' to close a quickfix or loclist window
 vim.api.nvim_create_autocmd(
@@ -74,6 +71,7 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
 })
 
 -- WELCOME TO THE PLUGIN ZONE --
+local bufopts = { silent=true } -- we'll set this for all of our custom commands
 
 --------------------------------------------------------------------------------
 -- vim-fish
@@ -86,7 +84,6 @@ vim.pack.add{ 'https://github.com/rhaiscript/vim-rhai' }
 --------------------------------------------------------------------------------
 -- leap.nvim
 vim.pack.add{ 'https://codeberg.org/andyg/leap.nvim.git' }
-local bufopts = { silent=true }
 vim.keymap.set('n', '<Space>', '<Plug>(leap-forward)', bufopts)
 vim.keymap.set('n', '<C-Space>', '<Plug>(leap-backward)', bufopts)
 
@@ -103,7 +100,6 @@ require("neo-tree").setup{
   enable_git_status = false,
   enable_modified_markers = false,
 }
-local bufopts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<Leader>d', ':Neotree<cr>', bufopts);
 
 --------------------------------------------------------------------------------
@@ -116,7 +112,6 @@ vim.pack.add{
   'https://github.com/nvim-telescope/telescope.nvim',
   'https://github.com/nvim-lua/plenary.nvim',
 }
-local bufopts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<Leader>t', ':Telescope find_files<cr>', bufopts)
 vim.api.nvim_set_keymap('n', '<Leader>a', ':Telescope live_grep<cr>', bufopts)
 vim.api.nvim_set_keymap('n', '<Leader>b', ':Telescope buffers<cr>', bufopts)
@@ -164,17 +159,10 @@ require'lualine'.setup {
 --------------------------------------------------------------------------------
 -- nvim-lspconfig (and the rust-analyzer zone)
 vim.pack.add{ 'https://github.com/neovim/nvim-lspconfig' }
-local bufopts = { noremap=true, silent=true }
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, bufopts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, bufopts)
 vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-vim.diagnostic.config{
-  virtual_text = false,
-  signs = true,
-  underline = false,
-  float = { border = "single" },
-}
 
 vim.lsp.config('rust_analyzer', {
   settings = {
@@ -223,6 +211,8 @@ vim.diagnostic.config{
     severity_sort = true,
     -- Underline problems.
     underline = true,
+    -- UI configuration
+    float = { border = "single" },
 }
 
 -- Helper function to switch to WASM mode
@@ -283,7 +273,7 @@ vim.pack.add{
 vim.o.completeopt = "menuone,noinsert,noselect"
 
 -- Avoid showing extra messages when using completion
-vim.o.shortmess = vim.o.shortmess .. "c"
+vim.opt.shortmess:append("c")
 local cmp = require'cmp'
 cmp.setup{
   sources = {
@@ -315,8 +305,8 @@ local ts_languages = {
 require'nvim-treesitter'.install(ts_languages)
 vim.api.nvim_create_autocmd(
   'PackChanged',
-  { callback = function()
-      if name == 'nvim-treesitter' and kind == 'update' then
+  { callback = function(e)
+      if e.data.name == 'nvim-treesitter' and e.data.kind == 'update' then
         require('nvim-treesitter').update()
       end
     end
@@ -326,6 +316,8 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = ts_languages,
   callback = function() vim.treesitter.start() end,
 })
+-- Fix docstring highlighting in Rust
+vim.api.nvim_set_hl(0, "@comment.documentation", { link = "SpecialComment" })
 
 --------------------------------------------------------------------------------
 -- fidget.nvim
@@ -350,6 +342,6 @@ vim.cmd[[
   hi link VimwikiHeader4 pandocBlockQuoteLeader1
   hi link VimwikiHeader5 pandocBlockQuoteLeader5
   hi link VimwikiHeader6 pandocBlockQuoteLeader6
-  map <leader>w<leader>d :VimwikiDiaryPrevDay<CR>
-  map <leader>w<leader>f :VimwikiDiaryNextDay<CR>
 ]]
+vim.api.nvim_set_keymap('n', '<Leader>w<leader>d', ':VimwikiDiaryPrevDay<CR>', bufopts)
+vim.api.nvim_set_keymap('n', '<Leader>w<leader>f', ':VimwikiDiaryNextDay<CR>', bufopts)
